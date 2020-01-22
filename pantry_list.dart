@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-Future<Item> fetchPost() async {
+List<Item> parseItems(String responseBody){
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<Item>((json) => Item.fromJson(json)).toList();
+}
+
+Future<List<Item>> fetchItems(http.Client client) async {
   final response =
       await http.get('https://my-json-server.typicode.com/taracell/json_demo');
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
-    return Item.fromJson(json.decode(response.body));
+    return parseItems(response.body);
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load pantry items');
