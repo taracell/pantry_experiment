@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:pantry/home_screen.dart';
 import 'login_screen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Universal Pantry',
+      title: 'Pantry Application',
       theme: ThemeData(
         primarySwatch: Colors.teal,
-        accentColor: Colors.deepPurpleAccent,
-        cursorColor: Colors.tealAccent,
+        accentColor: Colors.deepPurple,
+        cursorColor: Colors.teal,
       ),
       initialRoute: '/',
       routes: {

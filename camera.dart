@@ -183,7 +183,7 @@ class CameraState extends State<CameraWidget> {
 
     try {
       await controller.takePicture(filePath);
-    } on CameraException catch (e) {
+    } on CameraException {
       return null;
     }
     return filePath;
@@ -259,7 +259,7 @@ class CameraState extends State<CameraWidget> {
 
     try {
       await controller.initialize();
-    } on CameraException catch (e) {
+    } on CameraException {
       Alert(
         context: context,
         type: AlertType.warning,
