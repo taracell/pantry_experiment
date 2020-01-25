@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-List<Item> parseItems(String responseBody){
-  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-  return parsed.map<Item>((json) => Item.fromJson(json)).toList();
-}
-
 Future<List<Item>> fetchItems(http.Client client) async {
   final response =
       await http.get('https://my-json-server.typicode.com/taracell/json_demo');
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
-    return parseItems(response.body);
+    return compute(parseItems, response.body);
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load pantry items');
   }
+}
+
+List<Item> parseItems(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<Item>((json) => Item.fromJson(json)).toList();
 }
 
 class Item {
@@ -50,33 +50,41 @@ class PantryListState extends State<PantryList> {
   var isLoading = false;
 
   @override
-  void initState() {
-    super.initState();
-    item = fetchPost();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Pantry List"),
-        ),
         body: isLoading
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : FutureBuilder<Item>(
-                future: item,
+            : FutureBuilder<List<Item>>(
+                future: fetchItems(http.Client()),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data.item);
-                  } else if (snapshot.hasError) {
+                  if (snapshot.hasError) {
                     return Text("${snapshot.error}");
                   }
-
-                  // By default, show a loading spinner.
-                  return CircularProgressIndicator();
+                  return snapshot.hasData
+                      ? ItemList(items: snapshot.data)
+                      : Center(child: CircularProgressIndicator());
                 }));
+  }
+}
+
+class ItemList extends StatelessWidget {
+  final List<Item> items;
+
+  ItemList({Key key, this.items}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return Image.network(items[index].item);
+      },
+    );
   }
 }
 
