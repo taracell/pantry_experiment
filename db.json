@@ -1,29 +1,25 @@
 [
   {
-    "id": "024000163084",
-    "item": "Del Monte Fresh Cut Sweet Peas",
-    "manufacture": "Del Monte",
+    "title": "Del Monte Fresh Cut Sweet Peas",
+    "acquisition": "1/24/2020",
     "quantity" : 2,
-    "expiration": "1/24/2020"
+    "expiration": "1/24/2021"
   },
   {
-    "id": "024000013204",
-    "item": "Del Monte Peas and Carrots",
-    "manufacture": "Del Monte",
+    "title": "Del Monte Peas and Carrots",
+    "acquisition": "1/24/2021",
     "quantity" : 15,
-    "expiration": "1/22/2020"
+    "expiration": "1/24/2021"
   },
   {
-    "id": "046900001082",
-    "item": "Beans",
-    "manufacture": "Ranch Style",
+    "title": "Beans",
+    "acquisition": "1/24/2021",
     "quantity" : 50,
     "expiration": "1/22/2030"
   },
   {
-    "id": "041196452815",
-    "item": "Light New England Clam Chowder Soup",
-    "manufacture": "Progresso",
+    "title": "Light New England Clam Chowder Soup",
+    "acquisition": "1/24/2021",
     "quantity" : 7,
     "expiration": "1/22/2022"
   }
