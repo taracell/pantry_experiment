@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'home_screen.dart';
-import 'users.dart';
 import 'fade_route.dart';
+import 'home_screen.dart';
+import 'Authentication/users.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/auth';
@@ -65,13 +65,13 @@ class LoginScreen extends StatelessWidget {
       },
       onLogin: (loginData) {
         print('Login info');
-        print('Name: ${loginData.name}');
+        print('E-mal: ${loginData.name}');
         print('Password: ${loginData.password}');
         return _loginUser(loginData);
       },
       onSignup: (loginData) {
         print('Signup info');
-        print('Name: ${loginData.name}');
+        print('E-mail: ${loginData.name}');
         print('Password: ${loginData.password}');
         return _loginUser(loginData);
       },
@@ -80,10 +80,10 @@ class LoginScreen extends StatelessWidget {
           builder: (context) => HomeScreen(),
         ));
       },
-      onRecoverPassword: (name) {
+      onRecoverPassword: (email) {
         print('Recover password info');
-        print('Name: $name');
-        return _recoverPassword(name);
+        print('E-mail: $email');
+        return _recoverPassword(email);
         // Show new password dialog
       },
       showDebugButtons: false,

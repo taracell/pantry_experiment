@@ -25,23 +25,22 @@ dependencies:
   camera: ^0.5.7
 
   # provides local paths
-  path_provider: ^1.5.1
+  path_provider: 1.5.1
 
   # show alert popups
   rflutter_alert: ^1.0.3
 
   # barcode scanner
-  barcode_scan: ^0.0.3
+  barcode_scan_fix: ^1.0.2
 
   # thunk middleware
   redux_thunk: ^0.2.1
 
   # used for login screens
-  flutter_login: 1.0.11
+  flutter_login: 1.0.14
 
   # used for pantry listing retrieval and submission
   json_annotation: ^2.0.0
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

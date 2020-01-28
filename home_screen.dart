@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pantry/camera.dart';
-import 'file:///Users/tara/AndroidStudio/pantry_app/lib/pantry_list.dart';
+import 'scan_screen.dart';
+import 'pantry_list.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -15,8 +16,10 @@ class HomeScreenState extends State<HomeScreen> {
   final widgetOptions = [
     PantryList(),
     CameraWidget(),
-    Text('Barcode Widget'),
+    Scan(),
+    //Text('Will Scan'),
     Text('Expires First'),
+    Text('Search/Filter')
   ];
 
   @override
@@ -38,7 +41,7 @@ class HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_basket), title: Text('Scan Item')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), title: Text('Expiration List')),
+              icon: Icon(Icons.calendar_today), title: Text('Expiring')),
           BottomNavigationBarItem(
               icon: Icon(Icons.search), title: Text('Search')),
         ],
