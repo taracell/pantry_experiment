@@ -1,5 +1,5 @@
 name: pantry
-description: A new Flutter application.
+description: Flutter Pantry Application for CMSC 495, Spring 2020, Group 6.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -14,7 +14,7 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.1.0"
 
 dependencies:
   flutter:
@@ -32,6 +32,7 @@ dependencies:
 
   # barcode scanner
   barcode_scan_fix: ^1.0.2
+  built_value: ^7.0.2
 
   # thunk middleware
   redux_thunk: ^0.2.1
@@ -39,8 +40,11 @@ dependencies:
   # used for login screens
   flutter_login: 1.0.14
 
-  # used for pantry listing retrieval and submission
+  # used for pantry listing and barcode translation retrieval and submission
   json_annotation: ^2.0.0
+
+  # format the dateTime
+  intl: 0.16.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -67,8 +71,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-assets:
-  - assets/pantryInv.json
+  # assets:
+  #   - assets/pantryInv.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
