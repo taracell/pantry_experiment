@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login/flutter_login.dart';
+import 'package:flutter_login/flutter_login.dart'; //make sure to look up this package before messing with this screen
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'fade_route.dart';
 import 'home_screen.dart';
@@ -14,6 +14,7 @@ class LoginScreen extends StatelessWidget {
   Future<String> _loginUser(LoginData data) {
     return Future.delayed(loginTime).then((_) {
       if (!userLoginData.containsKey(data.name)) {
+        //need to replace const with API
         return 'Username not exists';
       }
       if (userLoginData[data.name] != data.password) {
@@ -26,6 +27,7 @@ class LoginScreen extends StatelessWidget {
   Future<String> _recoverPassword(String name) {
     return Future.delayed(loginTime).then((_) {
       if (!userLoginData.containsKey(name)) {
+        //need to replace const with API
         return 'Username not exists';
       }
       return null;
