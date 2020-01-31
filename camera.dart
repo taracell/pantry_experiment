@@ -23,8 +23,9 @@ class CameraState extends State<CameraWidget> {
 
   /// Inputs
   TextEditingController itemController = TextEditingController();
-  TextEditingController manufactureController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
   TextEditingController expirationController = TextEditingController();
+  TextEditingController acquisitionController = TextEditingController();
 
   ///initialise the view’s state
   @override
@@ -284,13 +285,14 @@ class CameraState extends State<CameraWidget> {
   }
 
   Widget pantryInfoInputsWidget() {
+    //var item = getUpcFromScan(barcode);
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
               controller: itemController,
-              onChanged: (v) => itemController.text = v,
+              onChanged: (h) => itemController.text = h,
               decoration: InputDecoration(
                 labelText: 'Item',
               )),
@@ -298,17 +300,26 @@ class CameraState extends State<CameraWidget> {
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
-              controller: manufactureController,
-              onChanged: (v) => manufactureController.text = v,
+              controller: quantityController,
+              onChanged: (h) => quantityController.text = h,
               decoration: InputDecoration(
-                labelText: "Manufacture",
+                labelText: "Quantity",
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 3),
+          child: TextField(
+              controller: acquisitionController,
+              onChanged: (h) => acquisitionController.text = h,
+              decoration: InputDecoration(
+                labelText: 'Acquisition Date',
               )),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3),
           child: TextField(
               controller: expirationController,
-              onChanged: (v) => expirationController.text = v,
+              onChanged: (h) => expirationController.text = h,
               decoration: InputDecoration(
                 labelText: 'Expiration Date',
               )),
@@ -318,7 +329,7 @@ class CameraState extends State<CameraWidget> {
           child: Builder(
             builder: (context) {
               return RaisedButton(
-                onPressed: () => {},
+                onPressed: () => {}, //toJson goes between brackets
                 color: Colors.teal,
                 child: Text('Add Item'),
               );

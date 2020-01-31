@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+part 'pantry_list.g.dart';
 
 Future<List<Inventory>> fetchInventory(http.Client client) async {
   final response = await http
@@ -39,7 +40,7 @@ class Inventory {
         acquisition: json['acquisition'] as String,
         expiration: json['expiration'] as String);
   } //factory
-} //Item
+} //Inventory
 
 class PantryList extends StatefulWidget {
   PantryList({Key key}) : super(key: key);

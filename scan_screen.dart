@@ -1,9 +1,12 @@
-import 'package:barcode_scan/barcode_scan.dart';
+import 'dart:convert';
+import 'package:barcode_scan_fix/barcode_scan.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'item_repo.dart';
+import 'upc_base_response.dart';
 import 'package:http/http.dart' as http;
+import 'main.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -12,16 +15,23 @@ class Scan extends StatefulWidget {
 
 class ScanState extends State<Scan> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  String barcode = "";
+  String barcode = '';
+  http.Client client = new http.Client();
+  BaseResponse baseResponse = BaseResponse();
 
   /// Inputs
   TextEditingController itemController = TextEditingController();
-  TextEditingController manufactureController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
   TextEditingController expirationController = TextEditingController();
+  TextEditingController acquisitionController =
+      TextEditingController(text: todayDate());
 
-  @override
-  initState() {
-    super.initState();
+  Future<dynamic> fetchBarcodeInfo(http.Client client, String barcode) async {
+    final response = await http
+        .get('https://api.upcitemdb.com/prod/trial/lookup?upc=' + barcode);
+    var responseBody = json.decode(response.body);
+    setState(() => baseResponse = BaseResponse.fromJson(responseBody));
+    print(baseResponse.items[0].title);
   }
 
   @override
@@ -34,26 +44,28 @@ class ScanState extends State<Scan> {
           child: Column(
             children: <Widget>[
               new Container(
-                child: new MaterialButton(
-                    onPressed: scan, child: new Text("Scan")),
+                child: new RaisedButton(
+                    onPressed: scan,
+                    color: Colors.teal,
+                    child: new Text("Scan")),
                 padding: const EdgeInsets.all(8.0),
               ),
               new Text(barcode),
-              pantryInfoInputsWidget()
+              pantryInfoInputsWidget(),
             ],
           ),
         )));
   }
 
   Widget pantryInfoInputsWidget() {
-    ItemRepo item = new getUpcFromScan(barcode);
     return Column(
-      children: [
+      children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
+              textInputAction: TextInputAction.continueAction,
               controller: itemController,
-              onChanged: itemController.text = re,
+              onChanged: (h) => itemController.text = h,
               decoration: InputDecoration(
                 labelText: 'Item',
               )),
@@ -61,17 +73,31 @@ class ScanState extends State<Scan> {
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
-              controller: manufactureController,
-              onChanged: (v) => manufactureController.text = v,
+              textInputAction: TextInputAction.continueAction,
+              controller: quantityController,
+              keyboardType: TextInputType.number,
+              onChanged: (h) => quantityController.text = h,
               decoration: InputDecoration(
-                labelText: "Manufacture",
+                labelText: "Quantity",
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 3),
+          child: TextField(
+              textInputAction: TextInputAction.continueAction,
+              controller: acquisitionController,
+              keyboardType: TextInputType.datetime,
+              onChanged: (h) => acquisitionController.text = h,
+              decoration: InputDecoration(
+                labelText: 'Acquisition Date',
               )),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3),
           child: TextField(
               controller: expirationController,
-              onChanged: (v) => expirationController.text = v,
+              keyboardType: TextInputType.datetime,
+              onChanged: (h) => expirationController.text = h,
               decoration: InputDecoration(
                 labelText: 'Expiration Date',
               )),
@@ -81,7 +107,7 @@ class ScanState extends State<Scan> {
           child: Builder(
             builder: (context) {
               return RaisedButton(
-                onPressed: () => {},
+                onPressed: () => {}, //toJson goes between brackets
                 color: Colors.teal,
                 child: Text('Add Item'),
               );
@@ -92,10 +118,35 @@ class ScanState extends State<Scan> {
     );
   }
 
+  Widget barcodeInfo() {
+    return Column(
+      children: <Widget>[
+        Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView.builder(
+              itemCount: (baseResponse == null ||
+                      baseResponse.items == null ||
+                      baseResponse.items.length == 0)
+                  ? 0
+                  : baseResponse.items.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    title: Text('${baseResponse.items[index].title}'));
+              }, //itemBuilder:
+            ))
+      ],
+    );
+  }
+
   Future scan() async {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
+      fetchBarcodeInfo(client, barcode);
+      if (baseResponse.items != null) {
+        setState(() => itemController =
+            TextEditingController(text: '${baseResponse.items[0].title}'));
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
@@ -110,5 +161,11 @@ class ScanState extends State<Scan> {
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('barcode', barcode));
   }
 }

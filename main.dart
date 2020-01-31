@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pantry/home_screen.dart';
+import 'home_screen.dart';
 import 'login_screen.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(new MyApp());
+
+todayDate() {
+  var now = new DateTime.now();
+  var formatter = new DateFormat('MM/dd/yyyy');
+  String formattedDate = formatter.format(now);
+  return formattedDate;
+}
 
 class MyApp extends StatelessWidget {
   @override
