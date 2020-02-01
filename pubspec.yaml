@@ -34,9 +34,6 @@ dependencies:
   barcode_scan_fix: ^1.0.2
   built_value: ^7.0.2
 
-  # thunk middleware
-  redux_thunk: ^0.2.1
-
   # used for login screens
   flutter_login: 1.0.14
 

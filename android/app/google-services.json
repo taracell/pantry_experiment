@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "248962009306",
+    "firebase_url": "https://turing-clover-266322.firebaseio.com",
+    "project_id": "turing-clover-266322",
+    "storage_bucket": "turing-clover-266322.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248962009306:android:5ba90900980ff465e4bde3",
+        "android_client_info": {
+          "package_name": "com.pantry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248962009306-3sn7u9hh32mgdln9mt1mkpb6dq5af8j9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw-GFTxOVdckohJd9gqODAqOZtDcJ6_k8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248962009306-3sn7u9hh32mgdln9mt1mkpb6dq5af8j9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
