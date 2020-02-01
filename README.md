@@ -58,10 +58,10 @@ Add command to file in project:  ios/Flutter/Release.xcconfig:
 
 Found issue not building in Android:
 
-Place the following commands in project folder:  /pantry/android/app/src/profile/AndroidManifest.xml
+Place the following commands in project folder without the quotes:  /pantry/android/app/src/profile/AndroidManifest.xml
 
-# <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
-# <uses-permission android:name="android.permission.CAMERA" />
+"<activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>"
+"<uses-permission android:name="android.permission.CAMERA" />"
 
 ### Pantry_list.dart:
 Flutter packages added: http, json_annotation, build_runner, json_serializable
