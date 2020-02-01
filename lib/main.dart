@@ -43,4 +43,6 @@ class MyApp extends StatelessWidget {
  * Change your /android/build.gradle variable: classpath 'com.android.tools.build:gradle:3.4.2'
  *
  * Under /android/gradlew.bat click on plugin for mac OS
+ *
+ * GitHub Build
  */
