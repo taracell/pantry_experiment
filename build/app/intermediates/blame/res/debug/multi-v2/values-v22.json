@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/tara/AndroidStudio/pantry/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-v22/values-v22.xml",
+            "outputFile": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\tara_code\\Flutter-Files-For-UI\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v22\\values-v22.xml",
             "map": [
                 {
-                    "source": "/Users/tara/.gradle/caches/transforms-2/files-2.1/419f5a4e4adb7628108cc1aa8290c30f/appcompat-1.0.2/res/values-v22/values-v22.xml",
+                    "source": "C:\\Users\\Brad\\.gradle\\caches\\transforms-2\\files-2.1\\419f5a4e4adb7628108cc1aa8290c30f\\appcompat-1.0.2\\res\\values-v22\\values-v22.xml",
                     "from": {
                         "startLines": "2,3,4,9",
                         "startColumns": "4,4,4,4",

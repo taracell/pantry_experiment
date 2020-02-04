@@ -15,11 +15,9 @@ class HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   final widgetOptions = [
     PantryList(),
-    CameraWidget(),
-    Scan(),
-    //Text('Will Scan'),
+    Text('Search/Filter'),
     Text('Expires First'),
-    Text('Search/Filter')
+    Scan(),
   ];
 
   @override
@@ -37,13 +35,11 @@ class HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.local_library), title: Text('Inventory')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_a_photo), title: Text('New Item')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_basket), title: Text('Scan Item')),
+              icon: Icon(Icons.search), title: Text('Search')),
           BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today), title: Text('Expiring')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.search), title: Text('Search')),
+              icon: Icon(Icons.add), title: Text('Add Item')),
         ],
         currentIndex: selectedIndex,
         fixedColor: Colors.teal,
