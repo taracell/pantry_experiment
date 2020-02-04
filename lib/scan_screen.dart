@@ -24,7 +24,7 @@ class ScanState extends State<Scan> {
   TextEditingController quantityController = TextEditingController();
   TextEditingController expirationController = TextEditingController();
   TextEditingController acquisitionController =
-      TextEditingController(text: todayDate());
+      TextEditingController(text: getDate());
 
   Future<dynamic> fetchBarcodeInfo(http.Client client, String barcode) async {
     final response = await http

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 void main() => runApp(new MyApp());
 
-todayDate() {
-  var now = new DateTime.now();
+String getDate() {
+  var today = new DateTime.now();
   var formatter = new DateFormat('MM/dd/yyyy');
-  String formattedDate = formatter.format(now);
+  String formattedDate = formatter.format(today);
   return formattedDate;
 }
 

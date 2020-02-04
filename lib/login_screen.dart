@@ -11,11 +11,12 @@ class LoginScreen extends StatelessWidget {
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 3000);
 
   //Future Use methods to find user name and password
+  //TODO - More secure login handling that doesn't tell which is incorrect
   Future<String> _loginUser(LoginData data) {
     return Future.delayed(loginTime).then((_) {
       if (!userLoginData.containsKey(data.name)) {
         //need to replace const with API
-        return 'Username not exists';
+        return 'Username not found';
       }
       if (userLoginData[data.name] != data.password) {
         return 'Password does not match';
@@ -28,7 +29,7 @@ class LoginScreen extends StatelessWidget {
     return Future.delayed(loginTime).then((_) {
       if (!userLoginData.containsKey(name)) {
         //need to replace const with API
-        return 'Username not exists';
+        return 'Username not found';
       }
       return null;
     });
@@ -47,12 +48,13 @@ class LoginScreen extends StatelessWidget {
         forgotPasswordButton: 'Forgot huh?',
         recoverPasswordButton: 'HELP ME',
         goBackButton: 'GO BACK',
-        confirmPasswordError: 'Not match!',
+        confirmPasswordError: 'Passwords do not match!',
         recoverPasswordIntro: 'Don\'t feel bad. Happens all the time.',
         recoverPasswordDescription: 'Lorem Ipsum is simply dummy text '
             'of the printing and typesetting industry',
-        recoverPasswordSuccess: 'Password rescued successfully',
+        recoverPasswordSuccess: 'Password recovered successfully',
       ),
+      //TODO - More robust form validation for login
       emailValidator: (value) {
         if (!value.contains('@') || !value.endsWith('.com')) {
           return "Email must contain '@' and end with '.com'";

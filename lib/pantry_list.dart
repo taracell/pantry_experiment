@@ -51,24 +51,26 @@ class PantryList extends StatefulWidget {
 class PantryListState extends State<PantryList> {
   Future<Inventory> inventory;
   var isLoading = false;
+  //List<GridTile> _inventory = <GridTile>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+      body: isLoading
+        ? Center(
+          child: CircularProgressIndicator(),
+          )
             : FutureBuilder<List<Inventory>>(
-                future: fetchInventory(http.Client()),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-                  return snapshot.hasData
-                      ? InventoryList(inventory: snapshot.data)
-                      : Center(child: CircularProgressIndicator());
-                }));
+              future: fetchInventory(http.Client()),
+              builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              return snapshot.hasData
+                ? InventoryList(inventory: snapshot.data)
+                  : Center(child: CircularProgressIndicator());
+              }
+            ));
   }
 }
 
@@ -79,20 +81,25 @@ class InventoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: inventory.length,
-        itemBuilder: (BuildContext context, int index) {
-          return new ExpansionTile(
-              title: Text(inventory[index].title),
-              children: <Widget>[
-                new Column(children: [
-                  Text('Quantity: ' + inventory[index].quantity.toString()),
-                  Text('Acquisition: ' + inventory[index].acquisition),
-                  Text('Expiration: ' + inventory[index].expiration),
-                ]),
-              ]);
-        });
+    return GridView.builder(
+      key: key,
+      itemCount: inventory.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      itemBuilder: (BuildContext context, int index) {
+        return new Column(children: [
+          Text(inventory[index].title),
+          Text('Quantity: ' + inventory[index].quantity.toString()),
+          Text('Acquisition: ' + inventory[index].acquisition),
+          Text('Expiration: ' + inventory[index].expiration),
+        ]);
+      }
+    );
   }
+
+  //Widget _buildTile() {
+    //TODO - Build clean tiles to pass to GridView.builder in build Widget.
+
+  //}
 }
 
 /**
