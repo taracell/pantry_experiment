@@ -41,6 +41,8 @@ https://blog.brainsandbeards.com/how-to-add-camera-support-to-a-flutter-app-c1df
 https://pub.dev/packages/camera
 All of the programming came from this site for the camera...I had a hard time getting the camera to work at first, but after reloading flutter and ensuring all dependencies were set correctly, it started working.  I blew all programs and files away and used back-up files from GitHub to recreate.  
 
+Found that the text wasn't quite inputting correctly, upon more research I found that the text input controllers were not input correctly.  This led to a revamp of how the controllers were input into the widget and showed state.  This allows for future use to be able to put into JSON as well as a get from JSON and editable once received.
+
 @ Files produced as a result:  camera.dart
 @ Files edited as a result:  pubspec.yaml (updates in comments on file), home_screen.dart (added CameraWidget()), android/app/build.gradle (updates in comments on file), android/build.gradle(update kotlin version, and both classpath dependencies), ios/runner/info.plist (updates in comments on file)
 
