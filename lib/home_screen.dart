@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pantry/camera.dart';
 import 'scan_screen.dart';
 import 'pantry_list.dart';
 

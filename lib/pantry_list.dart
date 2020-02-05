@@ -33,13 +33,9 @@ class Inventory {
 
   Inventory({this.title, this.acquisition, this.quantity, this.expiration});
 
-  factory Inventory.fromJson(Map<String, dynamic> json) {
-    return Inventory(
-        quantity: json['quantity'] as int,
-        title: json['title'] as String,
-        acquisition: json['acquisition'] as String,
-        expiration: json['expiration'] as String);
-  } //factory
+  factory Inventory.fromJson(Map<String, dynamic> json) =>
+      _$InventoryFromJson(json);
+  Map<String, dynamic> toJson() => _$InventoryToJson(this);
 } //Inventory
 
 class PantryList extends StatefulWidget {
@@ -51,26 +47,24 @@ class PantryList extends StatefulWidget {
 class PantryListState extends State<PantryList> {
   Future<Inventory> inventory;
   var isLoading = false;
-  //List<GridTile> _inventory = <GridTile>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-        ? Center(
-          child: CircularProgressIndicator(),
-          )
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
             : FutureBuilder<List<Inventory>>(
-              future: fetchInventory(http.Client()),
-              builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              return snapshot.hasData
-                ? InventoryList(inventory: snapshot.data)
-                  : Center(child: CircularProgressIndicator());
-              }
-            ));
+                future: fetchInventory(http.Client()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return snapshot.hasData
+                      ? InventoryList(inventory: snapshot.data)
+                      : Center(child: CircularProgressIndicator());
+                }));
   }
 }
 
@@ -79,27 +73,24 @@ class InventoryList extends StatelessWidget {
 
   InventoryList({Key key, this.inventory}) : super(key: key);
 
-  @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      key: key,
+    return ListView.separated(
       itemCount: inventory.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (BuildContext context, int index) {
-        return new Column(children: [
-          Text(inventory[index].title),
-          Text('Quantity: ' + inventory[index].quantity.toString()),
-          Text('Acquisition: ' + inventory[index].acquisition),
-          Text('Expiration: ' + inventory[index].expiration),
-        ]);
-      }
+      itemBuilder: (context, index) {
+        return Card(
+          child: Column(children: [
+            Text(inventory[index].title),
+            Text('Quantity: ' + inventory[index].quantity.toString()),
+            Text('Acquisition: ' + inventory[index].acquisition),
+            Text('Expiration: ' + inventory[index].expiration),
+          ]),
+        );
+      },
+      separatorBuilder: (context, index) {
+        return Divider();
+      },
     );
   }
-
-  //Widget _buildTile() {
-    //TODO - Build clean tiles to pass to GridView.builder in build Widget.
-
-  //}
 }
 
 /**

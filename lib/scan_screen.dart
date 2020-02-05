@@ -20,10 +20,11 @@ class ScanState extends State<Scan> {
   http.Client client = new http.Client();
   BaseResponse baseResponse = BaseResponse();
   var formatter = new DateFormat('MM/dd/yyyy');
+  Future base;
 
   /// Inputs
-  var itemController = TextEditingController();
-  var quantityController = TextEditingController();
+  var itemController = new TextEditingController();
+  var quantityController = new TextEditingController();
 
   ///Used for JSON compatibility
   String acquisition;
@@ -147,29 +148,9 @@ class ScanState extends State<Scan> {
                 color: Colors.teal,
                 child: Text('Add Item'),
               );
-            },
+            }, //builder
           ),
         ),
-      ],
-    );
-  }
-
-  Widget barcodeInfo() {
-    return Column(
-      children: <Widget>[
-        Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView.builder(
-              itemCount: (baseResponse == null ||
-                      baseResponse.items == null ||
-                      baseResponse.items.length == 0)
-                  ? 0
-                  : baseResponse.items.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                    title: Text('${baseResponse.items[index].title}'));
-              }, //itemBuilder:
-            ))
       ],
     );
   }
@@ -178,11 +159,7 @@ class ScanState extends State<Scan> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
-      String baseResponseBody = await fetchBarcodeInfo(client, barcode);
-      if (baseResponseBody == null) {
-        setState(() => itemController =
-            TextEditingController(text: '${baseResponse.items[0].title}'));
-      }
+      setState(() => itemController.text = '${baseResponse.items[0].title}');
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
