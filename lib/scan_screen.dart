@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:barcode_scan_fix/barcode_scan.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'upc_base_response.dart';
 import 'package:http/http.dart' as http;
-import 'main.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -18,13 +19,39 @@ class ScanState extends State<Scan> {
   String barcode = '';
   http.Client client = new http.Client();
   BaseResponse baseResponse = BaseResponse();
+  var formatter = new DateFormat('MM/dd/yyyy');
 
   /// Inputs
-  TextEditingController itemController = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
-  TextEditingController expirationController = TextEditingController();
-  TextEditingController acquisitionController =
-      TextEditingController(text: getDate());
+  var itemController = TextEditingController();
+  var quantityController = TextEditingController();
+
+  ///Used for JSON compatibility
+  String acquisition;
+  String expiration;
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    itemController.dispose();
+    quantityController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    itemController.addListener(_itemController);
+    quantityController.addListener(_quantityController);
+  }
+
+  _itemController() {
+    print("${itemController.text}");
+  }
+
+  _quantityController() {
+    print("${quantityController.text}");
+  }
 
   Future<dynamic> fetchBarcodeInfo(http.Client client, String barcode) async {
     final response = await http
@@ -63,9 +90,7 @@ class ScanState extends State<Scan> {
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
-              textInputAction: TextInputAction.continueAction,
               controller: itemController,
-              onChanged: (h) => itemController.text = h,
               decoration: InputDecoration(
                 labelText: 'Item',
               )),
@@ -73,34 +98,45 @@ class ScanState extends State<Scan> {
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
-              textInputAction: TextInputAction.continueAction,
               controller: quantityController,
               keyboardType: TextInputType.number,
-              onChanged: (h) => quantityController.text = h,
               decoration: InputDecoration(
                 labelText: "Quantity",
               )),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3),
-          child: TextField(
-              textInputAction: TextInputAction.continueAction,
-              controller: acquisitionController,
-              keyboardType: TextInputType.datetime,
-              onChanged: (h) => acquisitionController.text = h,
-              decoration: InputDecoration(
-                labelText: 'Acquisition Date',
-              )),
+          child: DateTimeField(
+            format: formatter,
+            decoration: InputDecoration(labelText: 'Acquisition Date'),
+            onShowPicker: (context, currentValue) {
+              return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+            },
+            onChanged: (dt) =>
+                setState(() => acquisition = dt.toIso8601String()),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3),
-          child: TextField(
-              controller: expirationController,
-              keyboardType: TextInputType.datetime,
-              onChanged: (h) => expirationController.text = h,
-              decoration: InputDecoration(
-                labelText: 'Expiration Date',
-              )),
+          child: DateTimeField(
+            format: formatter,
+            decoration: InputDecoration(
+              labelText: 'Expiration Date',
+            ),
+            onShowPicker: (context, currentValue) {
+              return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+            },
+            onChanged: (dt) =>
+                setState(() => expiration = dt.toIso8601String()),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),

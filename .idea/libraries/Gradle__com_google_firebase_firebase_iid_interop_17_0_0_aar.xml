@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.firebase:firebase-iid-interop:17.0.0@aar" type="AndroidModuleLibraryType">
+  <library name="Gradle: com.google.firebase:firebase-iid-interop:17.0.0@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a21fcd4136da31f3921385991ed7139b/firebase-iid-interop-17.0.0/jars/classes.jar!/" />
     </CLASSES>

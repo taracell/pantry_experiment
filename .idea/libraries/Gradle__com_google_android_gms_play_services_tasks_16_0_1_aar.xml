@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.android.gms:play-services-tasks:16.0.1@aar" type="AndroidModuleLibraryType">
+  <library name="Gradle: com.google.android.gms:play-services-tasks:16.0.1@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3bd89e937ddc86e8e958fb3e9bd047b3/jetified-play-services-tasks-16.0.1/jars/classes.jar!/" />
     </CLASSES>

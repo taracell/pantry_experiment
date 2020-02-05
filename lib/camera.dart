@@ -3,8 +3,10 @@ import 'dart:io';
 import "dart:core";
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 List<CameraDescription> cameras;
 
@@ -20,21 +22,44 @@ class CameraState extends State<CameraWidget> {
   bool isReady = false;
   bool showCamera = true;
   String imagePath;
+  var formatter = new DateFormat('MM/dd/yyyy');
 
-  /// Inputs
-  TextEditingController itemController = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
-  TextEditingController expirationController = TextEditingController();
-  TextEditingController acquisitionController = TextEditingController();
+  /// Inputs for text must be controllers for text control and add item future use
+  var itemController = TextEditingController();
+  var quantityController = TextEditingController();
 
-  ///initialise the view’s state
+  ///Used for JSON compatibility
+  String acquisition;
+  String expiration;
+
+  ///dispose of text controllers properly
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    itemController.dispose();
+    quantityController.dispose();
+    super.dispose();
+  }
+
+  ///initialise the view’s state and keep one listener for text controllers
   @override
   void initState() {
     super.initState();
-    setupCameras();
+    itemController.addListener(_itemController);
+    quantityController.addListener(_quantityController);
   }
 
-  ///
+  ///Listeners for text controllers
+  _itemController() {
+    print("${itemController.text}");
+  }
+
+  _quantityController() {
+    print("${quantityController.text}");
+  }
+
+  /// async camera set up
   Future<void> setupCameras() async {
     try {
       cameras = await availableCameras();
@@ -292,7 +317,6 @@ class CameraState extends State<CameraWidget> {
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
               controller: itemController,
-              onChanged: (h) => itemController.text = h,
               decoration: InputDecoration(
                 labelText: 'Item',
               )),
@@ -301,28 +325,43 @@ class CameraState extends State<CameraWidget> {
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
               controller: quantityController,
-              onChanged: (h) => quantityController.text = h,
               decoration: InputDecoration(
                 labelText: "Quantity",
               )),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3),
-          child: TextField(
-              controller: acquisitionController,
-              onChanged: (h) => acquisitionController.text = h,
-              decoration: InputDecoration(
-                labelText: 'Acquisition Date',
-              )),
+          child: DateTimeField(
+            format: formatter,
+            decoration: InputDecoration(labelText: 'Acquisition Date'),
+            onShowPicker: (context, currentValue) {
+              return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+            },
+            onChanged: (dt) =>
+                setState(() => acquisition = dt.toIso8601String()),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3),
-          child: TextField(
-              controller: expirationController,
-              onChanged: (h) => expirationController.text = h,
-              decoration: InputDecoration(
-                labelText: 'Expiration Date',
-              )),
+          child: DateTimeField(
+            format: formatter,
+            decoration: InputDecoration(
+              labelText: 'Expiration Date',
+            ),
+            onShowPicker: (context, currentValue) {
+              return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+            },
+            onChanged: (dt) =>
+                setState(() => expiration = dt.toIso8601String()),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
