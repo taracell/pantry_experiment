@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\tara_code\\Flutter-Files-For-UI\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-lv\\values-lv.xml",
+            "outputFile": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\pantry_inventory\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-lv\\values-lv.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Brad\\.gradle\\caches\\transforms-2\\files-2.1\\5aeb83d65e4eabc20202e7f9713b2766\\core-1.0.1\\res\\values-lv\\values-lv.xml",

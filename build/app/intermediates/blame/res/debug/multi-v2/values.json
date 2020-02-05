@@ -1,44 +1,8 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\tara_code\\Flutter-Files-For-UI\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\pantry_inventory\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
-                {
-                    "source": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\tara_code\\Flutter-Files-For-UI\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,199,314,396,500,609,729,833",
-                        "endColumns": "143,114,81,103,108,119,103,80",
-                        "endOffsets": "194,309,391,495,604,724,828,909"
-                    },
-                    "to": {
-                        "startLines": "478,481,482,483,484,485,486,494",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "32120,32578,32693,32775,32879,32988,33108,34248",
-                        "endColumns": "143,114,81,103,108,119,103,80",
-                        "endOffsets": "32259,32688,32770,32874,32983,33103,33207,34324"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\tara_code\\Flutter-Files-For-UI\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "57",
-                        "endLines": "6",
-                        "endColumns": "12",
-                        "endOffsets": "353"
-                    },
-                    "to": {
-                        "startLines": "1929",
-                        "startColumns": "4",
-                        "startOffsets": "127510",
-                        "endLines": "1933",
-                        "endColumns": "12",
-                        "endOffsets": "127802"
-                    }
-                },
                 {
                     "source": "C:\\Users\\Brad\\.gradle\\caches\\transforms-2\\files-2.1\\ab031b53859b6e2bf2c9f91b75700a6b\\recyclerview-1.0.0\\res\\values\\values.xml",
                     "from": {
@@ -78,6 +42,25 @@
                     }
                 },
                 {
+                    "source": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\pantry_inventory\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "353"
+                    },
+                    "to": {
+                        "startLines": "1929",
+                        "startColumns": "4",
+                        "startOffsets": "127510",
+                        "endLines": "1933",
+                        "endColumns": "12",
+                        "endOffsets": "127802"
+                    }
+                },
+                {
                     "source": "C:\\Users\\Brad\\.gradle\\caches\\transforms-2\\files-2.1\\5aeb83d65e4eabc20202e7f9713b2766\\core-1.0.1\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,171,172,176,177,178,6,13,56,88,125",
@@ -113,6 +96,23 @@
                         "endLines": "67,68,69,70,71,72,73,74,460,461,462,463,464,465,466,467,469,470,471,472,473,474,475,476,477,3981,4276",
                         "endColumns": "89,79,89,89,79,80,79,79,104,180,124,106,179,122,115,102,187,104,180,124,174,147,62,61,78,20,20",
                         "endOffsets": "4294,4374,4464,4554,4634,4715,4795,4875,29887,30068,30193,30300,30480,30603,30719,30822,31177,31282,31463,31588,31763,31911,31974,32036,32115,254372,270712"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\pantry_inventory\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,314,396,500,609,729,833",
+                        "endColumns": "143,114,81,103,108,119,103,80",
+                        "endOffsets": "194,309,391,495,604,724,828,909"
+                    },
+                    "to": {
+                        "startLines": "478,481,482,483,484,485,486,494",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "32120,32578,32693,32775,32879,32988,33108,34248",
+                        "endColumns": "143,114,81,103,108,119,103,80",
+                        "endOffsets": "32259,32688,32770,32874,32983,33103,33207,34324"
                     }
                 },
                 {
