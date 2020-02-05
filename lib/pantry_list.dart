@@ -8,7 +8,7 @@ part 'pantry_list.g.dart';
 
 Future<List<Inventory>> fetchInventory(http.Client client) async {
   final response = await http
-      .get('https://2c0fb3de-8d5e-4930-aed7-35d266bb88b7.mock.pstmn.io');
+  .get('https://2c0fb3de-8d5e-4930-aed7-35d266bb88b7.mock.pstmn.io');
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
@@ -85,21 +85,38 @@ class InventoryList extends StatelessWidget {
       key: key,
       itemCount: inventory.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      padding: const EdgeInsets.all(4),
+      shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
-        return new Column(children: [
-          Text(inventory[index].title),
-          Text('Quantity: ' + inventory[index].quantity.toString()),
-          Text('Acquisition: ' + inventory[index].acquisition),
-          Text('Expiration: ' + inventory[index].expiration),
-        ]);
+        return _buildCard(context, index);
       }
     );
   }
 
-  //Widget _buildTile() {
-    //TODO - Build clean tiles to pass to GridView.builder in build Widget.
-
-  //}
+  Widget _buildCard(BuildContext context, int index) {
+    return Center(
+      child: Card(
+        color: new Color(0xFF11AA33),
+        child: SizedBox(
+          width: 200,
+          height: 100,
+          //margin: new EdgeInsets.all(1),
+          child: Column(
+            //mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(inventory[index].title,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+              ),
+              Text('Quantity: ' + inventory[index].quantity.toString()),
+              Text('Acquisition: ' + inventory[index].acquisition),
+              Text('Expiration: ' + inventory[index].expiration),
+            ]
+          )
+        )
+      )
+    );
+  }
 }
 
 /**

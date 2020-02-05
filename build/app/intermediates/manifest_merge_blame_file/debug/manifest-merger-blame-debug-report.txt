@@ -12,14 +12,14 @@
 12         to allow setting breakpoints, to provide hot reload, etc.
 13    -->
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\debug\AndroidManifest.xml:6:5-66
-14-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\debug\AndroidManifest.xml:6:22-64
+14-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\debug\AndroidManifest.xml:6:5-66
+14-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\debug\AndroidManifest.xml:6:22-64
 15    <uses-permission android:name="android.permission.CAMERA" />
-15-->[:barcode_scan_fix] C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\build\barcode_scan_fix\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-65
-15-->[:barcode_scan_fix] C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\build\barcode_scan_fix\intermediates\library_manifest\debug\AndroidManifest.xml:11:22-62
+15-->[:barcode_scan_fix] C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\build\barcode_scan_fix\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-65
+15-->[:barcode_scan_fix] C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\build\barcode_scan_fix\intermediates\library_manifest\debug\AndroidManifest.xml:11:22-62
 16    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-16-->[:camera] C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\build\camera\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-71
-16-->[:camera] C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\build\camera\intermediates\library_manifest\debug\AndroidManifest.xml:8:22-68
+16-->[:camera] C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\build\camera\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-71
+16-->[:camera] C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\build\camera\intermediates\library_manifest\debug\AndroidManifest.xml:8:22-68
 17    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 17-->[com.google.android.gms:play-services-measurement:17.2.2] C:\Users\Brad\.gradle\caches\transforms-2\files-2.1\f1463e6b741f8b10663020b4b48f1b89\play-services-measurement-17.2.2\AndroidManifest.xml:24:5-79
 17-->[com.google.android.gms:play-services-measurement:17.2.2] C:\Users\Brad\.gradle\caches\transforms-2\files-2.1\f1463e6b741f8b10663020b4b48f1b89\play-services-measurement-17.2.2\AndroidManifest.xml:24:22-76
@@ -40,39 +40,39 @@
 26         FlutterApplication and put your custom class here.
 27    -->
 28    <application
-28-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:8:5-29:19
+28-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:8:5-29:19
 29        android:name="io.flutter.app.FlutterApplication"
-29-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:9:9-57
+29-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:9:9-57
 30        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 30-->[androidx.core:core:1.0.1] C:\Users\Brad\.gradle\caches\transforms-2\files-2.1\5aeb83d65e4eabc20202e7f9713b2766\core-1.0.1\AndroidManifest.xml:22:18-86
 31        android:debuggable="true"
 32        android:icon="@mipmap/ic_launcher"
-32-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:11:9-43
+32-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:11:9-43
 33        android:label="pantry" >
-33-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:10:9-31
+33-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:10:9-31
 34        <activity
-34-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:12:9-23:20
+34-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:12:9-23:20
 35            android:name="com.cellerytechsupport.pantry.MainActivity"
-35-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:13:13-41
+35-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:13:13-41
 36            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-36-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:16:13-163
+36-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:16:13-163
 37            android:hardwareAccelerated="true"
-37-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:17:13-47
+37-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:17:13-47
 38            android:launchMode="singleTop"
-38-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:14:13-43
+38-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:14:13-43
 39            android:theme="@style/LaunchTheme"
-39-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:15:13-47
+39-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:15:13-47
 40            android:windowSoftInputMode="adjustResize" >
-40-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:18:13-55
+40-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:18:13-55
 41            <intent-filter>
-41-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:19:13-22:29
+41-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:19:13-22:29
 42                <action android:name="android.intent.action.MAIN" />
-42-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:20:17-68
-42-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:20:25-66
+42-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:20:17-68
+42-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:20:25-66
 43
 44                <category android:name="android.intent.category.LAUNCHER" />
-44-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:21:17-76
-44-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:21:27-74
+44-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:21:17-76
+44-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:21:27-74
 45            </intent-filter>
 46        </activity>
 47        <!--
@@ -80,15 +80,15 @@
 49             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
 50        -->
 51        <meta-data
-51-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:26:9-28:33
+51-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:26:9-28:33
 52            android:name="flutterEmbedding"
-52-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:27:13-44
+52-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:27:13-44
 53            android:value="2" />
-53-->C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\android\app\src\main\AndroidManifest.xml:28:13-30
+53-->C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\android\app\src\main\AndroidManifest.xml:28:13-30
 54
 55        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity" />
-55-->[:barcode_scan_fix] C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\build\barcode_scan_fix\intermediates\library_manifest\debug\AndroidManifest.xml:14:9-91
-55-->[:barcode_scan_fix] C:\Users\Brad\Documents\CMSC495\Code\tara_code\Flutter-Files-For-UI\build\barcode_scan_fix\intermediates\library_manifest\debug\AndroidManifest.xml:14:19-88
+55-->[:barcode_scan_fix] C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\build\barcode_scan_fix\intermediates\library_manifest\debug\AndroidManifest.xml:14:9-91
+55-->[:barcode_scan_fix] C:\Users\Brad\Documents\CMSC495\Code\pantry_inventory\build\barcode_scan_fix\intermediates\library_manifest\debug\AndroidManifest.xml:14:19-88
 56
 57        <receiver
 57-->[com.google.android.gms:play-services-measurement:17.2.2] C:\Users\Brad\.gradle\caches\transforms-2\files-2.1\f1463e6b741f8b10663020b4b48f1b89\play-services-measurement-17.2.2\AndroidManifest.xml:29:9-33:20
