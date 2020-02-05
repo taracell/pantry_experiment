@@ -22,8 +22,8 @@ class ScanState extends State<Scan> {
   var formatter = new DateFormat('MM/dd/yyyy');
 
   /// Inputs
-  var itemController = new TextEditingController();
-  var quantityController = new TextEditingController();
+  var itemController = TextEditingController();
+  var quantityController = TextEditingController();
 
   ///Used for JSON compatibility
   String acquisition;
@@ -59,7 +59,6 @@ class ScanState extends State<Scan> {
     var responseBody = json.decode(response.body);
     setState(() => baseResponse = BaseResponse.fromJson(responseBody));
     print(baseResponse.items[0].title);
-    return baseResponse;
   }
 
   @override
@@ -148,9 +147,29 @@ class ScanState extends State<Scan> {
                 color: Colors.teal,
                 child: Text('Add Item'),
               );
-            }, //builder
+            },
           ),
         ),
+      ],
+    );
+  }
+
+  Widget barcodeInfo() {
+    return Column(
+      children: <Widget>[
+        Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView.builder(
+              itemCount: (baseResponse == null ||
+                      baseResponse.items == null ||
+                      baseResponse.items.length == 0)
+                  ? 0
+                  : baseResponse.items.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    title: Text('${baseResponse.items[index].title}'));
+              }, //itemBuilder:
+            ))
       ],
     );
   }
@@ -159,10 +178,10 @@ class ScanState extends State<Scan> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
-      if (barcode != null) {
-        await fetchBarcodeInfo(client, barcode);
-        setState(() => itemController.text = '${baseResponse.items[0].title}');
-        barcodeInfo();
+      String baseResponseBody = await fetchBarcodeInfo(client, barcode);
+      if (baseResponseBody == null) {
+        setState(() => itemController =
+            TextEditingController(text: '${baseResponse.items[0].title}'));
       }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
@@ -178,59 +197,6 @@ class ScanState extends State<Scan> {
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
-  }
-
-  Widget barcodeInfo() {
-    return FutureBuilder<dynamic>(
-      builder: (context, snapshot) {
-        List<Widget> children;
-
-        if (snapshot.hasData) {
-          children = <Widget>[
-            Icon(
-              Icons.check_circle_outline,
-              color: Colors.teal,
-              size: 60,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Text('Result: ${snapshot.data}'),
-            )
-          ];
-        } else if (snapshot.hasError) {
-          children = <Widget>[
-            Icon(
-              Icons.error_outline,
-              color: Colors.red,
-              size: 60,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Text('Error: ${snapshot.error}'),
-            )
-          ];
-        } else {
-          children = <Widget>[
-            SizedBox(
-              child: CircularProgressIndicator(),
-              width: 60,
-              height: 60,
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 16),
-              child: Text('Awaiting result...'),
-            )
-          ];
-        }
-        return Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
-          ),
-        );
-      },
-      future: fetchBarcodeInfo(client, barcode),
-    );
   }
 
   @override
