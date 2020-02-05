@@ -20,7 +20,6 @@ class ScanState extends State<Scan> {
   http.Client client = new http.Client();
   BaseResponse baseResponse = BaseResponse();
   var formatter = new DateFormat('MM/dd/yyyy');
-  Future base;
 
   /// Inputs
   var itemController = new TextEditingController();
@@ -60,6 +59,7 @@ class ScanState extends State<Scan> {
     var responseBody = json.decode(response.body);
     setState(() => baseResponse = BaseResponse.fromJson(responseBody));
     print(baseResponse.items[0].title);
+    return baseResponse;
   }
 
   @override
@@ -159,7 +159,11 @@ class ScanState extends State<Scan> {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
-      setState(() => itemController.text = '${baseResponse.items[0].title}');
+      if (barcode != null) {
+        await fetchBarcodeInfo(client, barcode);
+        setState(() => itemController.text = '${baseResponse.items[0].title}');
+        barcodeInfo();
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
@@ -174,6 +178,59 @@ class ScanState extends State<Scan> {
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
+  }
+
+  Widget barcodeInfo() {
+    return FutureBuilder<dynamic>(
+      builder: (context, snapshot) {
+        List<Widget> children;
+
+        if (snapshot.hasData) {
+          children = <Widget>[
+            Icon(
+              Icons.check_circle_outline,
+              color: Colors.teal,
+              size: 60,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Text('Result: ${snapshot.data}'),
+            )
+          ];
+        } else if (snapshot.hasError) {
+          children = <Widget>[
+            Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 60,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Text('Error: ${snapshot.error}'),
+            )
+          ];
+        } else {
+          children = <Widget>[
+            SizedBox(
+              child: CircularProgressIndicator(),
+              width: 60,
+              height: 60,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: Text('Awaiting result...'),
+            )
+          ];
+        }
+        return Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: children,
+          ),
+        );
+      },
+      future: fetchBarcodeInfo(client, barcode),
+    );
   }
 
   @override
