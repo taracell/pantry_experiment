@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:barcode_scan_fix/barcode_scan.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'upc_base_response.dart';
 import 'package:http/http.dart' as http;
-import 'main.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -18,21 +19,15 @@ class ScanState extends State<Scan> {
   String barcode = '';
   http.Client client = new http.Client();
   BaseResponse baseResponse = BaseResponse();
+  var formatter = new DateFormat('MM/dd/yyyy');
 
-  /// Inputs to make the text go the correct direction
+  /// Inputs
   var itemController = TextEditingController();
   var quantityController = TextEditingController();
-  var expirationController = TextEditingController();
-  var acquisitionController = TextEditingController(text: getDate());
 
-  @override
-  void initState() {
-    super.initState();
-    itemController.addListener(_printItem);
-    quantityController.addListener(_printQuantity);
-    expirationController.addListener(_printExpiration);
-    acquisitionController.addListener(_printAcquisition);
-  }
+  ///Used for JSON compatibility
+  String acquisition;
+  String expiration;
 
   @override
   void dispose() {
@@ -40,25 +35,22 @@ class ScanState extends State<Scan> {
     // widget tree.
     itemController.dispose();
     quantityController.dispose();
-    expirationController.dispose();
-    acquisitionController.dispose();
     super.dispose();
   }
 
-  _printItem() {
-    print('${itemController.text}');
+  @override
+  void initState() {
+    super.initState();
+    itemController.addListener(_itemController);
+    quantityController.addListener(_quantityController);
   }
 
-  _printQuantity() {
-    print('${quantityController.text}');
+  _itemController() {
+    print("${itemController.text}");
   }
 
-  _printExpiration() {
-    print('${expirationController.text}');
-  }
-
-  _printAcquisition() {
-    print('${acquisitionController.text}');
+  _quantityController() {
+    print("${quantityController.text}");
   }
 
   Future<dynamic> fetchBarcodeInfo(http.Client client, String barcode) async {
@@ -107,27 +99,44 @@ class ScanState extends State<Scan> {
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
               controller: quantityController,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: "Quantity",
               )),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3),
-          child: TextField(
-              controller: acquisitionController,
-              keyboardType: TextInputType.datetime,
-              decoration: InputDecoration(
-                labelText: 'Acquisition Date',
-              )),
+          child: DateTimeField(
+            format: formatter,
+            decoration: InputDecoration(labelText: 'Acquisition Date'),
+            onShowPicker: (context, currentValue) {
+              return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+            },
+            onChanged: (dt) =>
+                setState(() => acquisition = dt.toIso8601String()),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3),
-          child: TextField(
-              controller: expirationController,
-              keyboardType: TextInputType.datetime,
-              decoration: InputDecoration(
-                labelText: 'Expiration Date',
-              )),
+          child: DateTimeField(
+            format: formatter,
+            decoration: InputDecoration(
+              labelText: 'Expiration Date',
+            ),
+            onShowPicker: (context, currentValue) {
+              return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+            },
+            onChanged: (dt) =>
+                setState(() => expiration = dt.toIso8601String()),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -157,17 +166,8 @@ class ScanState extends State<Scan> {
                   ? 0
                   : baseResponse.items.length,
               itemBuilder: (context, index) {
-                return new Column(
-                  children: <Widget>[
-                    if (baseResponse.items[index] != null)
-                      new ListTile(
-                          title:
-                              new Text(baseResponse.items[index].toString())),
-                    new Divider(
-                      height: 2.0,
-                    ),
-                  ],
-                );
+                return ListTile(
+                    title: Text('${baseResponse.items[index].title}'));
               }, //itemBuilder:
             ))
       ],
