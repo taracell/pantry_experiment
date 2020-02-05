@@ -19,12 +19,47 @@ class ScanState extends State<Scan> {
   http.Client client = new http.Client();
   BaseResponse baseResponse = BaseResponse();
 
-  /// Inputs
-  TextEditingController itemController = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
-  TextEditingController expirationController = TextEditingController();
-  TextEditingController acquisitionController =
-      TextEditingController(text: getDate());
+  /// Inputs to make the text go the correct direction
+  var itemController = TextEditingController();
+  var quantityController = TextEditingController();
+  var expirationController = TextEditingController();
+  var acquisitionController = TextEditingController(text: getDate());
+
+  @override
+  void initState() {
+    super.initState();
+    itemController.addListener(_printItem);
+    quantityController.addListener(_printQuantity);
+    expirationController.addListener(_printExpiration);
+    acquisitionController.addListener(_printAcquisition);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    itemController.dispose();
+    quantityController.dispose();
+    expirationController.dispose();
+    acquisitionController.dispose();
+    super.dispose();
+  }
+
+  _printItem() {
+    print('${itemController.text}');
+  }
+
+  _printQuantity() {
+    print('${quantityController.text}');
+  }
+
+  _printExpiration() {
+    print('${expirationController.text}');
+  }
+
+  _printAcquisition() {
+    print('${acquisitionController.text}');
+  }
 
   Future<dynamic> fetchBarcodeInfo(http.Client client, String barcode) async {
     final response = await http
@@ -63,9 +98,7 @@ class ScanState extends State<Scan> {
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
-              textInputAction: TextInputAction.continueAction,
               controller: itemController,
-              onChanged: (h) => itemController.text = h,
               decoration: InputDecoration(
                 labelText: 'Item',
               )),
@@ -73,10 +106,7 @@ class ScanState extends State<Scan> {
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
-              textInputAction: TextInputAction.continueAction,
               controller: quantityController,
-              keyboardType: TextInputType.number,
-              onChanged: (h) => quantityController.text = h,
               decoration: InputDecoration(
                 labelText: "Quantity",
               )),
@@ -84,10 +114,8 @@ class ScanState extends State<Scan> {
         Padding(
           padding: const EdgeInsets.only(left: 3),
           child: TextField(
-              textInputAction: TextInputAction.continueAction,
               controller: acquisitionController,
               keyboardType: TextInputType.datetime,
-              onChanged: (h) => acquisitionController.text = h,
               decoration: InputDecoration(
                 labelText: 'Acquisition Date',
               )),
@@ -97,7 +125,6 @@ class ScanState extends State<Scan> {
           child: TextField(
               controller: expirationController,
               keyboardType: TextInputType.datetime,
-              onChanged: (h) => expirationController.text = h,
               decoration: InputDecoration(
                 labelText: 'Expiration Date',
               )),
@@ -130,8 +157,17 @@ class ScanState extends State<Scan> {
                   ? 0
                   : baseResponse.items.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                    title: Text('${baseResponse.items[index].title}'));
+                return new Column(
+                  children: <Widget>[
+                    if (baseResponse.items[index] != null)
+                      new ListTile(
+                          title:
+                              new Text(baseResponse.items[index].toString())),
+                    new Divider(
+                      height: 2.0,
+                    ),
+                  ],
+                );
               }, //itemBuilder:
             ))
       ],

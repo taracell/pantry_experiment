@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.android.gms:play-services-clearcut:17.0.0@aar" type="AndroidModuleLibraryType">
+  <library name="Gradle: com.google.android.gms:play-services-clearcut:17.0.0@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8f952d7f1fcde8583fc5e2d6dd517378/play-services-clearcut-17.0.0/jars/classes.jar!/" />
     </CLASSES>

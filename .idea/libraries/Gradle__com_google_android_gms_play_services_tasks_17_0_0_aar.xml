@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: com.google.android.gms:play-services-tasks:17.0.0@aar" type="AndroidModuleLibraryType">
+  <library name="Gradle: com.google.android.gms:play-services-tasks:17.0.0@aar">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/194771b5737e673772bdf8a0e59d2f9c/play-services-tasks-17.0.0/jars/classes.jar!/" />
     </CLASSES>

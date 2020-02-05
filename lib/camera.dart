@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'main.dart';
 
 List<CameraDescription> cameras;
 
@@ -21,20 +22,52 @@ class CameraState extends State<CameraWidget> {
   bool showCamera = true;
   String imagePath;
 
-  /// Inputs
+  /// Inputs to make the text go the correct direction
   TextEditingController itemController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
   TextEditingController expirationController = TextEditingController();
-  TextEditingController acquisitionController = TextEditingController();
+  TextEditingController acquisitionController =
+      TextEditingController(text: getDate());
+  @override
 
   ///initialise the view’s state
   @override
   void initState() {
     super.initState();
-    setupCameras();
+    itemController.addListener(_printItem);
+    quantityController.addListener(_printQuantity);
+    expirationController.addListener(_printExpiration);
+    acquisitionController.addListener(_printAcquisition);
   }
 
-  ///
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    itemController.dispose();
+    quantityController.dispose();
+    expirationController.dispose();
+    acquisitionController.dispose();
+    setupCameras();
+    super.dispose();
+  }
+
+  _printItem() {
+    print('${itemController.text}');
+  }
+
+  _printQuantity() {
+    print('${quantityController.text}');
+  }
+
+  _printExpiration() {
+    print('${expirationController.text}');
+  }
+
+  _printAcquisition() {
+    print('${acquisitionController.text}');
+  }
+
   Future<void> setupCameras() async {
     try {
       cameras = await availableCameras();
