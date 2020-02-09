@@ -23,11 +23,11 @@ class ScanState extends State<Scan> {
   String barcode = '';
   http.Client client = new http.Client();
   BaseResponse baseResponse = new BaseResponse();
-  var formatter = new DateFormat('MM/dd/yyyy');
+  var formatter = new DateFormat('yyyy-MM-dd');
 
 //TODO - Change url to correct url for post/get.
-  //String url = 'http://10.0.2.2:8000/item';
-  String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
+  String url = 'http://10.0.2.2:8000/item';
+  //String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
 
   /// Inputs
   var itemController = TextEditingController();
@@ -88,21 +88,21 @@ class ScanState extends State<Scan> {
         key: scaffoldKey,
         body: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  new Container(
-                    child: new RaisedButton(
-                        onPressed: scan,
-                        color: Colors.teal,
-                        child: new Text("Scan")),
-                    padding: const EdgeInsets.all(8.0),
-                  ),
-                  new Text(barcode),
-                  pantryInfoInputsWidget(context),
-                ],
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              new Container(
+                child: new RaisedButton(
+                    onPressed: scan,
+                    color: Colors.teal,
+                    child: new Text("Scan")),
+                padding: const EdgeInsets.all(8.0),
               ),
-            )));
+              new Text(barcode),
+              pantryInfoInputsWidget(context),
+            ],
+          ),
+        )));
   }
 
   Widget pantryInfoInputsWidget(context) {
@@ -201,13 +201,13 @@ class ScanState extends State<Scan> {
       }
     } on FormatException {
       setState(() => this.barcode =
-      'null (User returned using the "back"-button before scanning anything. Result)');
+          'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
   }
 
-  Future addToInventory(context) async {
+  Future addToInventory(BuildContext context) async {
     Inventory inventory = new Inventory(
         name: "${itemController.text}",
         acquisition: acquisition,
