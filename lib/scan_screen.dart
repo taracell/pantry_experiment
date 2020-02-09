@@ -5,9 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pantry/home_screen.dart';
+import 'package:pantry/pantry_list.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
 import 'upc_base_response.dart';
 import 'package:http/http.dart' as http;
+import 'fade_route.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -18,16 +22,22 @@ class ScanState extends State<Scan> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String barcode = '';
   http.Client client = new http.Client();
-  BaseResponse baseResponse = BaseResponse();
+  BaseResponse baseResponse = new BaseResponse();
   var formatter = new DateFormat('MM/dd/yyyy');
+
+//TODO - Change url to correct url for post/get.
+  //String url = 'http://10.0.2.2:8000/item';
+  String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
 
   /// Inputs
   var itemController = TextEditingController();
   var quantityController = TextEditingController();
+  var unitController = TextEditingController();
 
   ///Used for JSON compatibility
   String acquisition;
   String expiration;
+  String unit;
 
   @override
   void dispose() {
@@ -35,6 +45,7 @@ class ScanState extends State<Scan> {
     // widget tree.
     itemController.dispose();
     quantityController.dispose();
+    unitController.dispose();
     super.dispose();
   }
 
@@ -43,6 +54,7 @@ class ScanState extends State<Scan> {
     super.initState();
     itemController.addListener(_itemController);
     quantityController.addListener(_quantityController);
+    unitController.addListener(_unitController);
   }
 
   _itemController() {
@@ -53,12 +65,21 @@ class ScanState extends State<Scan> {
     print("${quantityController.text}");
   }
 
+  _unitController() {
+    print("${unitController.text}");
+  }
+
   Future<dynamic> fetchBarcodeInfo(http.Client client, String barcode) async {
     final response = await http
         .get('https://api.upcitemdb.com/prod/trial/lookup?upc=' + barcode);
-    var responseBody = json.decode(response.body);
-    setState(() => baseResponse = BaseResponse.fromJson(responseBody));
-    print(baseResponse.items[0].title);
+    if (response.statusCode == 200) {
+      var responseBody = json.decode(response.body);
+      setState(() => baseResponse = BaseResponse.fromJson(responseBody));
+      return baseResponse;
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load item');
+    }
   }
 
   @override
@@ -67,24 +88,24 @@ class ScanState extends State<Scan> {
         key: scaffoldKey,
         body: Center(
             child: SingleChildScrollView(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              new Container(
-                child: new RaisedButton(
-                    onPressed: scan,
-                    color: Colors.teal,
-                    child: new Text("Scan")),
-                padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  new Container(
+                    child: new RaisedButton(
+                        onPressed: scan,
+                        color: Colors.teal,
+                        child: new Text("Scan")),
+                    padding: const EdgeInsets.all(8.0),
+                  ),
+                  new Text(barcode),
+                  pantryInfoInputsWidget(context),
+                ],
               ),
-              new Text(barcode),
-              pantryInfoInputsWidget(),
-            ],
-          ),
-        )));
+            )));
   }
 
-  Widget pantryInfoInputsWidget() {
+  Widget pantryInfoInputsWidget(context) {
     return Column(
       children: <Widget>[
         Padding(
@@ -92,16 +113,24 @@ class ScanState extends State<Scan> {
           child: TextField(
               controller: itemController,
               decoration: InputDecoration(
-                labelText: 'Item',
+                labelText: 'Item: What is it?',
               )),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
               controller: quantityController,
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.numberWithOptions(decimal: false),
               decoration: InputDecoration(
-                labelText: "Quantity",
+                labelText: "Quantity:  How many?",
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 3, bottom: 4.0),
+          child: TextField(
+              controller: unitController,
+              decoration: InputDecoration(
+                labelText: "Unit: How much?",
               )),
         ),
         Padding(
@@ -143,8 +172,7 @@ class ScanState extends State<Scan> {
           child: Builder(
             builder: (context) {
               return RaisedButton(
-                onPressed: () => {}, //toJson goes between brackets
-                color: Colors.teal,
+                onPressed: () => addToInventory(context),
                 child: Text('Add Item'),
               );
             },
@@ -154,32 +182,12 @@ class ScanState extends State<Scan> {
     );
   }
 
-  Widget barcodeInfo() {
-    return Column(
-      children: <Widget>[
-        Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView.builder(
-              itemCount: (baseResponse == null ||
-                      baseResponse.items == null ||
-                      baseResponse.items.length == 0)
-                  ? 0
-                  : baseResponse.items.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                    title: Text('${baseResponse.items[index].title}'));
-              }, //itemBuilder:
-            ))
-      ],
-    );
-  }
-
   Future scan() async {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
-      String baseResponseBody = await fetchBarcodeInfo(client, barcode);
-      if (baseResponseBody == null) {
+      BaseResponse baseResponseBody = await fetchBarcodeInfo(client, barcode);
+      if (baseResponseBody != null) {
         setState(() => itemController =
             TextEditingController(text: '${baseResponse.items[0].title}'));
       }
@@ -193,10 +201,71 @@ class ScanState extends State<Scan> {
       }
     } on FormatException {
       setState(() => this.barcode =
-          'null (User returned using the "back"-button before scanning anything. Result)');
+      'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
+  }
+
+  Future addToInventory(context) async {
+    Inventory inventory = new Inventory(
+        name: "${itemController.text}",
+        acquisition: acquisition,
+        //unit: "${unitController.text}",
+        //quantity: int.parse("${quantityController.text}"),
+        expiration: expiration);
+
+    var responseBody = json.encode(inventory);
+    final response = await http.post(url + responseBody);
+    if (response.statusCode == 200) {
+      _alertSuccess(context);
+      return response;
+    } else {
+      print("Item Not Added to Pantry");
+      _alertFail(context);
+      throw Exception('Failed to load to Inventory');
+      // If that call was not successful, throw an error.
+    }
+  }
+
+  void _alertSuccess(context) {
+    new Alert(
+      context: context,
+      type: AlertType.info,
+      title: "Information",
+      desc: "Item Added to Pantry.",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Transfer",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          color: Colors.teal,
+          onPressed: () => Navigator.of(context).pushReplacement(FadePageRoute(
+            builder: (context) => HomeScreen(),
+          )),
+        ),
+      ],
+    ).show();
+  }
+
+  void _alertFail(context) {
+    new Alert(
+      context: context,
+      type: AlertType.error,
+      title: "ERROR",
+      desc: "Item NOT Added to Pantry. Please check your input and try again",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          color: Colors.teal,
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
+    ).show();
   }
 
   @override
