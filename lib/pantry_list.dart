@@ -6,9 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 part 'pantry_list.g.dart';
 
+//String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
+String url = 'http://10.0.2.2:8000/item';
+
 Future<List<Inventory>> fetchInventory(http.Client client) async {
-  final response = await http
-  .get('https://2c0fb3de-8d5e-4930-aed7-35d266bb88b7.mock.pstmn.io');
+  final response = await http.get(url);
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
@@ -26,20 +28,22 @@ List<Inventory> parseItems(String responseBody) {
 
 @JsonSerializable()
 class Inventory {
-  final int quantity;
-  final String title;
+  final String name;
   final String acquisition;
+  //final int quantity;
+  //final String unit;
   final String expiration;
 
-  Inventory({this.title, this.acquisition, this.quantity, this.expiration});
+  Inventory(
+      {this.name,
+      this.acquisition,
+      //this.unit,
+      //this.quantity,
+      this.expiration});
 
-  factory Inventory.fromJson(Map<String, dynamic> json) {
-    return Inventory(
-        quantity: json['quantity'] as int,
-        title: json['title'] as String,
-        acquisition: json['acquisition'] as String,
-        expiration: json['expiration'] as String);
-  } //factory
+  factory Inventory.fromJson(Map<String, dynamic> json) =>
+      _$InventoryFromJson(json);
+  Map<String, dynamic> toJson() => _$InventoryToJson(this);
 } //Inventory
 
 class PantryList extends StatefulWidget {
@@ -56,21 +60,20 @@ class PantryListState extends State<PantryList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading
-        ? Center(
-          child: CircularProgressIndicator(),
-          )
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
             : FutureBuilder<List<Inventory>>(
-              future: fetchInventory(http.Client()),
-              builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              return snapshot.hasData
-                ? InventoryList(inventory: snapshot.data)
-                  : Center(child: CircularProgressIndicator());
-              }
-            ));
+                future: fetchInventory(http.Client()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return snapshot.hasData
+                      ? InventoryList(inventory: snapshot.data)
+                      : Center(child: CircularProgressIndicator());
+                }));
   }
 }
 
@@ -79,42 +82,32 @@ class InventoryList extends StatelessWidget {
 
   InventoryList({Key key, this.inventory}) : super(key: key);
 
-  @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      key: key,
       itemCount: inventory.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      padding: const EdgeInsets.all(4),
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        return _buildCard(context, index);
-      }
-    );
-  }
-
-  Widget _buildCard(BuildContext context, int index) {
-    return Center(
-      child: Card(
-        color: new Color(0xFF11AA33),
-        child: SizedBox(
-          width: 200,
-          height: 100,
-          //margin: new EdgeInsets.all(1),
+      gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      itemBuilder: (context, index) {
+        return Center(
+            child: Card(
           child: Column(
-            //mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(inventory[index].title,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Center(
+                child: ListTile(
+                  title: Text(inventory[index].name.toString()),
+                ),
               ),
-              Text('Quantity: ' + inventory[index].quantity.toString()),
-              Text('Acquisition: ' + inventory[index].acquisition),
-              Text('Expiration: ' + inventory[index].expiration),
-            ]
-          )
-        )
-      )
+              Column(children: <Widget>[
+                Text('Expiration: ' + inventory[index].expiration.toString()),
+                //Text('Unit: ' + inventory[index].unit.toString()),
+                //Text('Quantity: ' + inventory[index].quantity.toString()),
+                Text('Acquisition: ' + inventory[index].acquisition.toString()),
+              ])
+            ],
+          ),
+        ));
+      },
     );
   }
 }
@@ -123,7 +116,7 @@ class InventoryList extends StatelessWidget {
  *  in pubspec.yaml:
     dependencies:
     flutter:
-      sdk: flutter
+    sdk: flutter
     http: ^0.12.0
     json_annotation: ^2.0.0
     dev_dependencies:
