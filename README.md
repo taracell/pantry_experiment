@@ -98,6 +98,12 @@ Interesting find today...makes my dart classes for me from the raw json input, n
 
 #Note! Found that JSON does not have a DateTime object it only possesses strings for this.  To make the parsing easier, created a formatter in main.dart to parse all DateTime to strings in MM/dd/yyyy format this should make things easier once the API is created and usable for all DateTime objects 
 
+#Note! To POST to API must include headers in the request.  24 Hours to figure that out.  Main reference: https://stackoverflow.com/questions/50278258/http-post-with-json-on-body-flutter-dart/50295533
+
+#Note!Testing with different OS on simulators to server on local machine: 
+Android: http://10.0.0.2:<PORT>/<URL>
+iOS: http://localhost:<PORT>/<URL>
+
 @ Files produced as a result:  scan_screen.dart, upc_base_response.dart, upc_base_response.g.dart
 @ Files edited as a result:  application/android build.gradle, and pubspec.yaml, main.dart
 
