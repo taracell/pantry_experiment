@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pantry/home_screen.dart';
 import 'package:pantry/pantry_list.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +25,8 @@ class ScanState extends State<Scan> {
   var formatter = new DateFormat('yyyy-MM-dd');
 
 //TODO - Change url to correct url for post/get.
-  String url = 'http://10.0.2.2:8000/item';
+  String url = 'http://localhost:8000/item'; //iOS TESTING
+  //String url = 'http://10.0.2.2:8000/item/'; //ANDROID TESTING
   //String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
 
   /// Inputs
@@ -207,7 +207,7 @@ class ScanState extends State<Scan> {
     }
   }
 
-  Future addToInventory(BuildContext context) async {
+  Future addToInventory(context) async {
     Inventory inventory = new Inventory(
         name: "${itemController.text}",
         acquisition: acquisition,
@@ -216,7 +216,8 @@ class ScanState extends State<Scan> {
         expiration: expiration);
 
     var responseBody = json.encode(inventory);
-    final response = await http.post(url + responseBody);
+    final response = await http.post(url,
+        headers: {"Content-Type": "application/json"}, body: responseBody);
     if (response.statusCode == 200) {
       _alertSuccess(context);
       return response;
@@ -242,7 +243,7 @@ class ScanState extends State<Scan> {
           ),
           color: Colors.teal,
           onPressed: () => Navigator.of(context).pushReplacement(FadePageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => PantryList(),
           )),
         ),
       ],

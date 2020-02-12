@@ -6,8 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 part 'pantry_list.g.dart';
 
+//TODO - Change url to correct url for post/get.
+String url = 'http://localhost:8000/item'; //iOS TESTING
+//String url = 'http://10.0.2.2:8000/item/'; //ANDROID TESTING
 //String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
-String url = 'http://10.0.2.2:8000/item';
 
 Future<List<Inventory>> fetchInventory(http.Client client) async {
   final response = await http.get(url);
