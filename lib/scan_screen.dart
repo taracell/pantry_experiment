@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pantry/home_screen.dart';
 import 'package:pantry/pantry_list.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
@@ -243,7 +244,7 @@ class ScanState extends State<Scan> {
           ),
           color: Colors.teal,
           onPressed: () => Navigator.of(context).pushReplacement(FadePageRoute(
-            builder: (context) => PantryList(),
+            builder: (context) => HomeScreen(),
           )),
         ),
       ],
