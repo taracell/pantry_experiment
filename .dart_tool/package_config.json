@@ -45,9 +45,9 @@
     },
     {
       "name": "build_config",
-      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/build_config-0.4.1+1",
+      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/build_config-0.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.3"
+      "languageVersion": "2.6"
     },
     {
       "name": "build_daemon",
@@ -63,15 +63,15 @@
     },
     {
       "name": "build_runner",
-      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/build_runner-1.7.3",
+      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/build_runner-1.7.4",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
     {
       "name": "build_runner_core",
-      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/build_runner_core-4.3.0",
+      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/build_runner_core-4.4.0",
       "packageUri": "lib/",
-      "languageVersion": "2.3"
+      "languageVersion": "2.6"
     },
     {
       "name": "built_collection",
@@ -81,7 +81,7 @@
     },
     {
       "name": "built_value",
-      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/built_value-7.0.8",
+      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/built_value-7.0.9",
       "packageUri": "lib/",
       "languageVersion": "2.3"
     },
@@ -363,15 +363,15 @@
     },
     {
       "name": "provider",
-      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/provider-4.0.2",
+      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/provider-4.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.2"
     },
     {
       "name": "pub_semver",
-      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/pub_semver-1.4.2",
+      "rootUri": "file:///Users/tara/flutter/.pub-cache/hosted/pub.dartlang.org/pub_semver-1.4.3",
       "packageUri": "lib/",
-      "languageVersion": "1.0"
+      "languageVersion": "2.0"
     },
     {
       "name": "pubspec_parse",
@@ -512,7 +512,7 @@
       "languageVersion": "2.1"
     }
   ],
-  "generated": "2020-02-15T18:29:41.299812Z",
+  "generated": "2020-02-15T18:45:28.791316Z",
   "generator": "pub",
   "generatorVersion": "2.7.0"
 }
