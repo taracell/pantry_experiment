@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pantry/scan_screen.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
-import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 void main() => runApp(new MyApp());
 
-String getDate() {
-  var today = new DateTime.now();
-  var formatter = new DateFormat('MM/dd/yyyy');
-  String formattedDate = formatter.format(today);
-  return formattedDate;
+class GlobalData {
+  static String auth;
 }
 
 class MyApp extends StatelessWidget {
@@ -25,10 +21,16 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
+        // When navigating to the "/" route, build the LoginScreen widget.
         '/': (context) => LoginScreen(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/second': (context) => HomeScreen(),
+        // When navigating to the "/home" route, build the HomeScreen widget.
+        '/home': (context) => HomeScreen(),
+        // When navigating to the "/login" route, build the LoginScreen widget.
+        '/login': (context) => LoginScreen(),
+        // When navigating to the "/add" route, build the Scan widget.
+        '/add': (context) => Scan(),
+        // When navigating to the "/search" route, build the SearchScreen widget.
+        //'/search' : (context) => SearchScreen()
       },
     );
   }

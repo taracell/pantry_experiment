@@ -5,12 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pantry/home_screen.dart';
 import 'package:pantry/pantry_list.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
 import 'upc_base_response.dart';
 import 'package:http/http.dart' as http;
 import 'fade_route.dart';
+import 'main.dart';
 
 class Scan extends StatefulWidget {
   @override
@@ -26,8 +28,8 @@ class ScanState extends State<Scan> {
 
 //TODO - Change url to correct url for post/get.
   //String url = 'http://localhost:8000/item'; //iOS TESTING
-  //String url = 'http://10.0.2.2:8000/item/'; //ANDROID TESTING
-  String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
+  String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
+  //String url = 'https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
 
   /// Inputs
   var itemController = TextEditingController();
@@ -210,15 +212,22 @@ class ScanState extends State<Scan> {
   Future addToInventory(context) async {
     Inventory inventory = new Inventory(
         name: "${itemController.text}",
-        acquisition: acquisition,
+        acquisition: acquisition.substring(0, 10),
         //unit: "${unitController.text}",
         //quantity: int.parse("${quantityController.text}"),
-        expiration: expiration);
+        expiration: expiration.substring(0, 10));
 
     var responseBody = json.encode(inventory);
     final response = await http.post(url,
-        headers: {"Content-Type": "application/json"}, body: responseBody);
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": GlobalData.auth
+        },
+        body: responseBody);
     if (response.statusCode == 200) {
+      print(response.body);
+      print(responseBody);
       _alertSuccess(context);
       return response;
     } else {
@@ -243,7 +252,7 @@ class ScanState extends State<Scan> {
           ),
           color: Colors.teal,
           onPressed: () => Navigator.of(context).pushReplacement(FadePageRoute(
-            builder: (context) => PantryList(),
+            builder: (context) => HomeScreen(),
           )),
         ),
       ],
