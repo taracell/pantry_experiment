@@ -13,6 +13,29 @@ import '../models/upc_base_response.dart';
 import '../screens/scan_screen.dart';
 import '../utils/fade_route.dart';
 
+Future<String> login(loginData, BuildContext context) async {
+  GlobalData.auth = 'Basic ' +
+      base64Encode(utf8.encode("${loginData.name}:${(loginData.password)}"));
+  print(GlobalData.auth);
+  final response = await http.get(
+    GlobalData.url,
+    headers: {
+      "Content-Type": "application/json",
+      //"Accept": "application/json",
+      "Authorization": GlobalData.auth,
+    },
+  ); //body: responseBody
+  if (response.statusCode == 200) {
+    return null;
+  } else {
+    print("Not Logged In");
+    print(response.body);
+    _alertFail(context, 'Failed to login. ' + response.statusCode.toString());
+    throw Exception('Failed to load to Inventory');
+    // If that call was not successful, throw an error.
+  }
+}
+
 Future<List<Inventory>> fetchInventory(
     http.Client client, BuildContext context) async {
   final response = await http.get(GlobalData.url, headers: {

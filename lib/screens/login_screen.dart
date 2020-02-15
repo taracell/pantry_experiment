@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_login/flutter_login.dart'; //make sure to look up this package before messing with this screen
+import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:http/http.dart' as http;
+
+import '../data/connect_repository.dart';
 import '../utils/fade_route.dart';
-import 'home_screen.dart';
 import '../main.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -81,51 +81,5 @@ class LoginScreenState extends State<LoginScreen> {
       },
       showDebugButtons: false,
     );
-  }
-
-  Future<String> login(LoginData loginData, BuildContext context) async {
-    var url = 'http://10.0.2.2:8000/item'; //ANDROID
-    //var url = 'http://localhost:8000/item'; //iOS
-    setState(() => this.basicAuth = 'Basic ' +
-        base64Encode(utf8.encode("${loginData.name}:${(loginData.password)}")));
-    print(basicAuth);
-    GlobalData.auth = basicAuth;
-    final response = await http.get(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        //"Accept": "application/json",
-        "Authorization": basicAuth,
-      },
-    ); //body: responseBody
-    if (response.statusCode == 200) {
-      return null;
-    } else {
-      print("Not Logged In");
-      print(response.body);
-      _alertFail(context, response.statusCode);
-      throw Exception('Failed to load to Inventory');
-      // If that call was not successful, throw an error.
-    }
-  }
-
-  void _alertFail(context, response) {
-    new Alert(
-      context: context,
-      type: AlertType.error,
-      title: "ERROR",
-      //display the error response code
-      desc: "Something went wrong " + response.toString(),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "OK",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          color: Colors.teal,
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
-    ).show();
   }
 }
