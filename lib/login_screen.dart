@@ -1,39 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart'; //make sure to look up this package before messing with this screen
 import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:http/http.dart' as http;
 import 'fade_route.dart';
 import 'home_screen.dart';
-import 'Authentication/users.dart';
+import 'main.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key key}) : super(key: key);
+
+  @override
+  LoginScreenState createState() => LoginScreenState();
+}
+
+class LoginScreenState extends State<LoginScreen> {
   static const routeName = '/auth';
-
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 3000);
-
-  //Future Use methods to find user name and password
-  //TODO - More secure login handling that doesn't tell which is incorrect
-  Future<String> _loginUser(LoginData data) {
-    return Future.delayed(loginTime).then((_) {
-      if (!userLoginData.containsKey(data.name)) {
-        //need to replace const with API
-        return 'Username not found';
-      }
-      if (userLoginData[data.name] != data.password) {
-        return 'Password does not match';
-      }
-      return null;
-    });
-  }
-
-  Future<String> _recoverPassword(String name) {
-    return Future.delayed(loginTime).then((_) {
-      if (!userLoginData.containsKey(name)) {
-        //need to replace const with API
-        return 'Username not found';
-      }
-      return null;
-    });
-  }
+  String basicAuth;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +32,6 @@ class LoginScreen extends StatelessWidget {
         loginButton: 'LOG IN',
         signupButton: 'REGISTER',
         forgotPasswordButton: 'Forgot huh?',
-        recoverPasswordButton: 'HELP ME',
         goBackButton: 'GO BACK',
         confirmPasswordError: 'Passwords do not match!',
         recoverPasswordIntro: 'Don\'t feel bad. Happens all the time.',
@@ -63,7 +48,11 @@ class LoginScreen extends StatelessWidget {
       },
       passwordValidator: (value) {
         if (value.isEmpty) {
-          return 'Password is empty';
+          return 'Please enter a password';
+        }
+        if (value.length < 8) {
+          return 'Your password must contain at least 8 characters.';
+          // ignore: missing_return
         }
         return null;
       },
@@ -71,13 +60,13 @@ class LoginScreen extends StatelessWidget {
         print('Login info');
         print('E-mal: ${loginData.name}');
         print('Password: ${loginData.password}');
-        return _loginUser(loginData);
+        return login(loginData, context);
       },
       onSignup: (loginData) {
         print('Signup info');
         print('E-mail: ${loginData.name}');
         print('Password: ${loginData.password}');
-        return _loginUser(loginData);
+        return login(loginData, context);
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(FadePageRoute(
@@ -87,10 +76,79 @@ class LoginScreen extends StatelessWidget {
       onRecoverPassword: (email) {
         print('Recover password info');
         print('E-mail: $email');
-        return _recoverPassword(email);
-        // Show new password dialog
+        return null;
+        //Show new password dialog
       },
       showDebugButtons: false,
     );
+  }
+
+  Future<String> login(LoginData loginData, BuildContext context) async {
+    var url = 'http://10.0.2.2:8000/item'; //ANDROID
+    //var url = 'http://localhost:8000/admin/login/?next=/admin/auth/user'; //iOS
+    setState(() => this.basicAuth = 'Basic ' +
+        base64Encode(utf8.encode("${loginData.name}:${(loginData.password)}")));
+    print(basicAuth);
+    GlobalData.auth = basicAuth;
+    final response = await http.get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        //"Accept": "application/json",
+        "Authorization": basicAuth,
+      },
+    ); //body: responseBody
+    print(response.toString());
+    print(response.body.toString());
+    if (response.statusCode == 200) {
+      _alertSuccess(context);
+      return response.toString();
+    } else {
+      print("Not Logged In");
+      print(response.body);
+      _alertFail(context, response.statusCode);
+      throw Exception('Failed to load to Inventory');
+      // If that call was not successful, throw an error.
+    }
+  }
+
+  void _alertSuccess(context) {
+    new Alert(
+      context: context,
+      type: AlertType.info,
+      title: "Information",
+      desc: "Login Success!.",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Transfer",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          color: Colors.teal,
+          onPressed: () => Navigator.of(context).pushReplacement(FadePageRoute(
+            builder: (context) => HomeScreen(),
+          )),
+        ),
+      ],
+    ).show();
+  }
+
+  void _alertFail(context, response) {
+    new Alert(
+      context: context,
+      type: AlertType.error,
+      title: "ERROR",
+      desc: "Something went wrong " + response.toString(),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          color: Colors.teal,
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
+    ).show();
   }
 }

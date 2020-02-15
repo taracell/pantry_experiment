@@ -4,17 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pantry/main.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 part 'pantry_list.g.dart';
 
 //TODO - Change url to correct url for post/get.
 //String url = 'http://localhost:8000/item'; //iOS TESTING
-//String url = 'http://10.0.2.2:8000/item/'; //ANDROID TESTING
-String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
+String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
+//String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
 
-
-Future<List<Inventory>> fetchInventory(http.Client client, BuildContext context) async {
-  final response = await http.get(url);
+Future<List<Inventory>> fetchInventory(
+    http.Client client, BuildContext context) async {
+  final response = await http.get(url, headers: {
+    "Content-Type": "application/json",
+    //"Accept": "application/json",
+    "Authorization": GlobalData.auth,
+  }); //response
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
