@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Brad\\Documents\\CMSC495\\Code\\pantry_inventory\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-xhdpi-v4\\values-xhdpi-v4.xml",
+            "outputFile": "/Users/tara/AndroidStudio/pantry_experiment/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-xhdpi-v4/values-xhdpi-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Brad\\.gradle\\caches\\transforms-2\\files-2.1\\7f694cf0da5cf7a266d63701cb7b20c9\\jetified-core-1.9.13\\res\\values-xhdpi-v4\\values-xhdpi-v4.xml",
+                    "source": "/Users/tara/.gradle/caches/transforms-2/files-2.1/45e683508d4749fcf4cf7d6d9f1ebe27/jetified-core-1.9.13/res/values-xhdpi-v4/values-xhdpi-v4.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

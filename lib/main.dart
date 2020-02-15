@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:pantry/scan_screen.dart';
-import 'home_screen.dart';
-import 'login_screen.dart';
+import 'screens/scan_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() => runApp(new MyApp());
 
 class GlobalData {
   static String auth;
+  //static String url = 'http://localhost:8000/item'; //iOS TESTING
+  static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
+  //static String url ='https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
 }
 
 class MyApp extends StatelessWidget {
