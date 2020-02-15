@@ -85,7 +85,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   Future<String> login(LoginData loginData, BuildContext context) async {
     var url = 'http://10.0.2.2:8000/item'; //ANDROID
-    //var url = 'http://localhost:8000/admin/login/?next=/admin/auth/user'; //iOS
+    //var url = 'http://localhost:8000/item'; //iOS
     setState(() => this.basicAuth = 'Basic ' +
         base64Encode(utf8.encode("${loginData.name}:${(loginData.password)}")));
     print(basicAuth);
@@ -98,11 +98,8 @@ class LoginScreenState extends State<LoginScreen> {
         "Authorization": basicAuth,
       },
     ); //body: responseBody
-    print(response.toString());
-    print(response.body.toString());
     if (response.statusCode == 200) {
-      _alertSuccess(context);
-      return response.toString();
+      return null;
     } else {
       print("Not Logged In");
       print(response.body);
@@ -112,32 +109,12 @@ class LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _alertSuccess(context) {
-    new Alert(
-      context: context,
-      type: AlertType.info,
-      title: "Information",
-      desc: "Login Success!.",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "Transfer",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          color: Colors.teal,
-          onPressed: () => Navigator.of(context).pushReplacement(FadePageRoute(
-            builder: (context) => HomeScreen(),
-          )),
-        ),
-      ],
-    ).show();
-  }
-
   void _alertFail(context, response) {
     new Alert(
       context: context,
       type: AlertType.error,
       title: "ERROR",
+      //display the error response code
       desc: "Something went wrong " + response.toString(),
       buttons: [
         DialogButton(

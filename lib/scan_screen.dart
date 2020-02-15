@@ -29,7 +29,7 @@ class ScanState extends State<Scan> {
 //TODO - Change url to correct url for post/get.
   //String url = 'http://localhost:8000/item'; //iOS TESTING
   String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
-  //String url = 'https://14186d37-8753-4052-924a-c403f155a8bb.mock.pstmn.io';
+  //String url = 'https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
 
   /// Inputs
   var itemController = TextEditingController();
