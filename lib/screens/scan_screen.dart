@@ -13,7 +13,6 @@ import '../data/connect_repository.dart';
 class Connections {
   /// Inputs
   static var itemController = TextEditingController();
-  static var quantityController = TextEditingController();
   static var unitController = TextEditingController();
 
   ///Used for JSON compatibility
@@ -39,7 +38,6 @@ class ScanState extends State<Scan> {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     Connections.itemController.dispose();
-    Connections.quantityController.dispose();
     Connections.unitController.dispose();
     super.dispose();
   }
@@ -48,16 +46,11 @@ class ScanState extends State<Scan> {
   void initState() {
     super.initState();
     Connections.itemController.addListener(_itemController);
-    Connections.quantityController.addListener(_quantityController);
     Connections.unitController.addListener(_unitController);
   }
 
   _itemController() {
     print("${Connections.itemController.text}");
-  }
-
-  _quantityController() {
-    print("${Connections.quantityController.text}");
   }
 
   _unitController() {
@@ -101,15 +94,6 @@ class ScanState extends State<Scan> {
         Padding(
           padding: const EdgeInsets.only(left: 3, bottom: 4.0),
           child: TextField(
-              controller: Connections.quantityController,
-              keyboardType: TextInputType.numberWithOptions(decimal: false),
-              decoration: InputDecoration(
-                labelText: "Quantity:  How many?",
-              )),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 3, bottom: 4.0),
-          child: TextField(
               controller: Connections.unitController,
               decoration: InputDecoration(
                 labelText: "Unit: How much?",
@@ -123,9 +107,9 @@ class ScanState extends State<Scan> {
             onShowPicker: (context, currentValue) {
               return showDatePicker(
                   context: context,
-                  firstDate: DateTime(1900),
+                  firstDate: DateTime(DateTime.now().year - 40),
                   initialDate: currentValue ?? DateTime.now(),
-                  lastDate: DateTime(2100));
+                  lastDate: DateTime(DateTime.now().year + 40));
             },
             onChanged: (dt) =>
                 setState(() => Connections.acquisition = dt.toIso8601String()),
@@ -141,9 +125,9 @@ class ScanState extends State<Scan> {
             onShowPicker: (context, currentValue) {
               return showDatePicker(
                   context: context,
-                  firstDate: DateTime(1900),
+                  firstDate: DateTime(DateTime.now().year - 40),
                   initialDate: currentValue ?? DateTime.now(),
-                  lastDate: DateTime(2100));
+                  lastDate: DateTime(DateTime.now().year + 40));
             },
             onChanged: (dt) =>
                 setState(() => Connections.expiration = dt.toIso8601String()),

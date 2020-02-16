@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 
 import '../data/connect_repository.dart';
 import '../utils/fade_route.dart';
-import '../main.dart';
 import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,7 +16,6 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   static const routeName = '/auth';
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 3000);
-  String basicAuth;
 
   @override
   Widget build(BuildContext context) {

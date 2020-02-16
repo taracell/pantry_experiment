@@ -6,6 +6,15 @@ import 'scan_screen.dart';
 import 'package:pantry/data/connect_repository.dart';
 import 'package:pantry/models/inventory.dart';
 
+class GlobalData {
+  static String auth;
+  static var client = new http.Client();
+  static bool offline = false;
+  static String url = 'http://localhost:8000/item'; //iOS TESTING
+//static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
+//static String url ='https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
+}
+
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
 
@@ -18,7 +27,6 @@ class HomeScreenState extends State<HomeScreen> {
   final widgetOptions = [
     PantryList(),
     Text('Search/Filter'),
-    Text('Expires First'),
     Scan(),
   ];
 
@@ -26,7 +34,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pantry Application '),
+        title: Text('Pantry Application'),
       ),
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),
@@ -38,8 +46,6 @@ class HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.local_library), title: Text('Inventory')),
           BottomNavigationBarItem(
               icon: Icon(Icons.search), title: Text('Search')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), title: Text('Expiring')),
           BottomNavigationBarItem(
               icon: Icon(Icons.add), title: Text('Add Item')),
         ],
@@ -75,7 +81,7 @@ class PantryListState extends State<PantryList> {
                 child: CircularProgressIndicator(),
               )
             : FutureBuilder<List<Inventory>>(
-                future: fetchInventory(http.Client(), context),
+                future: fetchInventory(context),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text("${snapshot.error}");
@@ -109,9 +115,8 @@ class InventoryList extends StatelessWidget {
                 ),
               ),
               Column(children: <Widget>[
+                // Text('Unit: ' + inventory[index].unitType.toString()),
                 Text('Expiration: ' + inventory[index].expiration.toString()),
-                //Text('Unit: ' + inventory[index].unit.toString()),
-                //Text('Quantity: ' + inventory[index].quantity.toString()),
                 Text('Acquisition: ' + inventory[index].acquisition.toString()),
               ])
             ],
