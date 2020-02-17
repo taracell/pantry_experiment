@@ -34,7 +34,12 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pantry Application'),
+        title: Text('Pantry Application ' +
+            DateTime.now().year.toString() +
+            "-" +
+            DateTime.now().month.toString() +
+            "-" +
+            DateTime.now().day.toString()),
       ),
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),

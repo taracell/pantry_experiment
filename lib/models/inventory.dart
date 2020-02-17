@@ -5,10 +5,11 @@ part 'inventory.g.dart';
 class Inventory {
   final String name;
   final String acquisition;
-  //final String unitType;
+  final String quantity_with_unit;
   final String expiration;
 
-  Inventory({this.name, this.acquisition, this.expiration});
+  Inventory(
+      {this.name, this.acquisition, this.expiration, this.quantity_with_unit});
 
   factory Inventory.fromJson(Map<String, dynamic> json) =>
       _$InventoryFromJson(json);
