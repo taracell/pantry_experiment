@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import 'scan_screen.dart';
 import 'package:pantry/data/connect_repository.dart';
@@ -10,9 +11,9 @@ class GlobalData {
   static String auth;
   static var client = new http.Client();
   static bool offline = false;
-  static String url = 'http://localhost:8000/item'; //iOS TESTING
-//static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
-//static String url ='https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
+  //static String url = 'http://localhost:8000/item'; //iOS TESTING
+  static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
+  //static String url ='https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
 }
 
 class HomeScreen extends StatefulWidget {
@@ -35,11 +36,7 @@ class HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Pantry Application ' +
-            DateTime.now().year.toString() +
-            "-" +
-            DateTime.now().month.toString() +
-            "-" +
-            DateTime.now().day.toString()),
+            new DateFormat.yMMMMd('en_US').format(new DateTime.now())),
       ),
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),
@@ -120,7 +117,7 @@ class InventoryList extends StatelessWidget {
                 ),
               ),
               Column(children: <Widget>[
-                // Text('Unit: ' + inventory[index].unitType.toString()),
+                Text('Unit: ' + inventory[index].quantity_with_unit.toString()),
                 Text('Expiration: ' + inventory[index].expiration.toString()),
                 Text('Acquisition: ' + inventory[index].acquisition.toString()),
               ])

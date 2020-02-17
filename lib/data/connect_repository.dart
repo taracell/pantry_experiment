@@ -45,20 +45,25 @@ Future<String> login(loginData, BuildContext context) async {
 } //login
 
 Future<List<Inventory>> fetchInventory(BuildContext context) async {
-  final response = await http.get(GlobalData.url, headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": GlobalData.auth,
-  }); //response
-
-  if (response.statusCode == 200) {
-    // If the call to the server was successful, parse the JSON.
-    return compute(parseItems, response.body);
+  if (GlobalData.offline) {
+    String response = await readLocalInventoryFile();
+    return compute(parseItems, response);
   } else {
-    // If that call was not successful, throw an error.
-    _alertFail(
-        context, 'Did not connect to server ' + response.statusCode.toString());
-    throw Exception('Failed to load pantry items');
+    final response = await http.get(GlobalData.url, headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": GlobalData.auth,
+    }); //response
+
+    if (response.statusCode == 200) {
+      writeInventoryFromServer(response.body);
+      return compute(parseItems, response.body);
+    } else {
+      // If that call was not successful, throw an error.
+      _alertFail(context,
+          'Did not connect to server ' + response.statusCode.toString());
+      throw Exception('Failed to load pantry items');
+    }
   }
 }
 
@@ -71,7 +76,7 @@ Future addToInventory(context) async {
   Inventory inventory = new Inventory(
       name: "${Connections.itemController.text}",
       acquisition: Connections.acquisition.substring(0, 10),
-      //unitType: "${Connections.unitController.text}",
+      quantity_with_unit: "${Connections.unitController.text}",
       expiration: Connections.expiration.substring(0, 10));
 
   var responseBody = json.encode(inventory);
