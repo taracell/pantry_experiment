@@ -26,7 +26,7 @@ Future<String> login(loginData, BuildContext context) async {
       "Content-Type": "application/json",
       "Accept": "application/json",
       "Authorization": GlobalData.auth,
-    }).timeout(Duration(seconds: 2));
+    }).timeout(Duration(seconds: 10));
   } on TimeoutException catch (e) {
     _alertFailLogin(context, 'Failed to login to server. ' + e.toString());
   } finally {
@@ -46,7 +46,7 @@ Future<String> login(loginData, BuildContext context) async {
 
 Future<List<Inventory>> fetchInventory(BuildContext context) async {
   if (GlobalData.offline) {
-    String response = await readLocalInventoryFile();
+    String response = await readLocalInventoryFile(context);
     return compute(parseItems, response);
   } else {
     final response = await http.get(GlobalData.url, headers: {
@@ -75,27 +75,32 @@ List<Inventory> parseItems(String responseBody) {
 Future addToInventory(context) async {
   Inventory inventory = new Inventory(
       name: "${Connections.itemController.text}",
-      acquisition: Connections.acquisition.substring(0, 10),
       quantity_with_unit: "${Connections.unitController.text}",
+      acquisition: Connections.acquisition.substring(0, 10),
       expiration: Connections.expiration.substring(0, 10));
 
   var responseBody = json.encode(inventory);
-  final response = await http.post(GlobalData.url,
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": GlobalData.auth
-      },
-      body: responseBody);
-  if (response.statusCode == 200) {
-    print(response.body);
-    print(responseBody);
-    _alertSuccess(context, 'Item sucessfully added to inventory');
-    return response;
-  } else {
+  if (GlobalData.offline) {
     writeItem(responseBody);
-    _alertFail(context, 'Item not added to server');
-    throw Exception('Failed to load to server Inventory');
+    _alertSuccess(context, 'Item sucessfully added to local phone inventory');
+  } else {
+    final response = await http.post(GlobalData.url,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": GlobalData.auth
+        },
+        body: responseBody);
+    if (response.statusCode == 200) {
+      print(response.body);
+      print(responseBody);
+      _alertSuccess(context, 'Item sucessfully added to inventory');
+      return response;
+    } else {
+      writeItem(responseBody);
+      _alertFail(context, 'Item not added to server');
+      throw Exception('Failed to load to server Inventory');
+    }
   }
 } //addToInventory
 

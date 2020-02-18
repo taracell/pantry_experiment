@@ -1,26 +1,22 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import '../screens/scan_screen.dart';
+import '../utils/fade_route.dart';
 
-Future<String> get _localPath async {
-  final directory = await getTemporaryDirectory();
-  return directory.path;
-} //_localPath
+File jsonFile;
+Directory dir;
+String local = "local_inventory.json";
+String server = "server_inventory.json";
+bool fileExists = false;
 
-Future<File> get _localFile async {
-  final path = await _localPath;
-  return File('$path/local_inventory.json');
-} //_localFile
-
-Future<File> get _serverFile async {
-  final path = await _localPath;
-  return File('$path/server_inventory.json');
-} //_serverFile
-
-Future<String> readLocalInventoryFile() async {
+Future<String> readLocalInventoryFile(context) async {
+  existingFile(context);
   try {
-    final file = await _localFile;
-    String body = await file.readAsString();
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    Future<String> body = File(dir + "/" + local).readAsString();
     return body;
   } catch (e) {
     print(e.toString());
@@ -28,24 +24,75 @@ Future<String> readLocalInventoryFile() async {
   }
 } //readLocalInventoryFile
 
-Future<File> writeItem(response) async {
+Future<void> writeItem(response) async {
   try {
-    final file = await _localFile;
-    // Write the file.
-    return file.writeAsString('$response', mode: FileMode.append);
+    final filename = 'local_inventory.json';
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File(dir + "/" + filename)
+        .writeAsStringSync(response, mode: FileMode.append);
+    print("write item try statement: " + dir + "/" + filename);
+    return null;
   } catch (e) {
     print(e.toString());
-    return null;
+    return e.toString();
   }
 } //writeItem
 
-Future<File> writeInventoryFromServer(response) async {
+Future<void> writeInventoryFromServer(response) async {
   try {
-    final file = await _serverFile;
-    // Write the file.
-    return file.writeAsString('$response', mode: FileMode.write);
+    final filename = 'server_inventory.json';
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File(dir + "/" + filename).writeAsStringSync(response);
   } catch (e) {
     print(e.toString());
-    return null;
   }
 } //writeInventoryFromServer
+
+void getDirectory() async {
+  /*to store files temporary we use getTemporaryDirectory() but we want
+    permanent storage so we use getApplicationDocumentsDirectory() */
+  await getApplicationDocumentsDirectory().then((Directory directory) {
+    dir = directory;
+    jsonFile = new File(dir.path + "/" + local);
+    fileExists = jsonFile.existsSync();
+  });
+}
+
+void createFile(Directory dir, String fileName) {
+  print("Creating file!");
+  File file = new File(dir.path + "/" + fileName);
+  file.createSync();
+  fileExists = true;
+}
+
+void existingFile(context) async {
+  getDirectory();
+  if (fileExists) {
+    print("File exists");
+  } else {
+    print("File does not exist!");
+    createFile(dir, local);
+    _alertCreatingFile(context);
+  }
+}
+
+void _alertCreatingFile(context) {
+  new Alert(
+    context: context,
+    type: AlertType.info,
+    title: "Creating file on your phone.",
+    desc: "Please transfer to add an item to begin.",
+    buttons: [
+      DialogButton(
+        child: Text(
+          "Transfer",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        color: Colors.teal,
+        onPressed: () => Navigator.of(context).pushReplacement(FadePageRoute(
+          builder: (context) => Scan(),
+        )),
+      ),
+    ],
+  ).show();
+} //_alertSuccess

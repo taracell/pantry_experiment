@@ -10,9 +10,12 @@ import 'package:pantry/models/inventory.dart';
 class GlobalData {
   static String auth;
   static var client = new http.Client();
-  static bool offline = false;
+  static bool offline =
+      true; //setting this to true so I can get the local storage working
+  static String url =
+      'http://192.168,0,2:8000/item'; //iOS Testing real device...Replace the IP with your IP from your machine
   //static String url = 'http://localhost:8000/item'; //iOS TESTING
-  static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
+  //static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
   //static String url ='https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
 }
 
