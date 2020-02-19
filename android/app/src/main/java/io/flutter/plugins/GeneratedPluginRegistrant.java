@@ -15,7 +15,7 @@ public final class GeneratedPluginRegistrant {
   public static void registerWith(@NonNull FlutterEngine flutterEngine) {
     ShimPluginRegistry shimPluginRegistry = new ShimPluginRegistry(flutterEngine);
       com.apptreesoftware.barcodescan.BarcodeScanPlugin.registerWith(shimPluginRegistry.registrarFor("com.apptreesoftware.barcodescan.BarcodeScanPlugin"));
-    flutterEngine.getPlugins().add(new io.flutter.plugins.camera.CameraPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.pathprovider.PathProviderPlugin());
+    flutterEngine.getPlugins().add(new com.tekartik.sqflite.SqflitePlugin());
   }
 }
