@@ -13,7 +13,7 @@ BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) {
       offset: json['offset'] as int,
       items: (json['items'] as List)
           ?.map((e) =>
-              e == null ? null : Item.fromJson(e as Map<String, dynamic>))
+              e == null ? null : Items.fromJson(e as Map<String, dynamic>))
           ?.toList());
 }
 
@@ -25,8 +25,8 @@ Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
       'items': instance.items
     };
 
-Item _$ItemFromJson(Map<String, dynamic> json) {
-  return Item(
+Items _$ItemsFromJson(Map<String, dynamic> json) {
+  return Items(
       ean: json['ean'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
@@ -49,7 +49,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
       elid: json['elid'] as String);
 }
 
-Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
+Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{
       'ean': instance.ean,
       'title': instance.title,
       'description': instance.description,

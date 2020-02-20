@@ -1,100 +1,100 @@
 [
   {
     "name": "Carrots",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "bushel",
-    "expiration_date": "1/22/2030"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Carrots",
-    "acquisition_date": "3/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "bushel",
-    "expiration_date": "3/22/2030"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Del Monte Fresh Cut Sweet Peas",
-    "acquisition_date": "1/24/2020",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "can",
-    "expiration_date": "1/24/2021"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Del Monte Peas and Carrots",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "can",
-    "expiration_date": "1/24/2021"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Beans",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "can",
-    "expiration_date": "1/22/2030"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Light New England Clam Chowder Soup",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "can",
-    "expiration_date": "1/22/2022"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Sweet Peas",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "can",
-    "expiration_date": "1/22/2030"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Cream of Mushroom Soup",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity" : 7,
     "quantity_with_unit": "can",
-    "expiration_date": "1/22/2022"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Pickles",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "16 oz jar",
-    "expiration_date": "1/22/2022"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Pickled Pig’s Feet",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity" : 1,
     "quantity_with_unit": "jar",
-    "expiration_date": "1/22/2022"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Brownie Mix",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "box",
-    "expiration_date": "1/22/2022"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Spam",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "can",
     "expiration_date": "1/22/2050"
   },
   {
     "name": "Twinkies",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "packages",
-    "expiration_date": "1/22/2050"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Doritos, Ranch",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "12 oz bag",
-    "expiration_date": "1/22/2025"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Almond Joy",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "bar",
-    "expiration_date": "1/22/2022"
+    "expiration_date": "2021-01-21"
   },
   {
     "name": "Jiffy Cornbread Mix",
-    "acquisition_date": "1/24/2021",
+    "acquisition_date": "2021-01-21",
     "quantity_with_unit": "box",
-    "expiration_date": "1/22/2023"
+    "expiration_date": "2021-01-21"
   }
 ]

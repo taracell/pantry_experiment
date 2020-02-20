@@ -22,10 +22,9 @@ dependencies:
 
   # allows camera and JSON usage
   http: 0.12.0+1
-  camera: ^0.5.7
 
   # provides local paths
-  path_provider: 1.5.1
+  path_provider: ^1.5.1
 
   # show alert popups
   rflutter_alert: ^1.0.3
@@ -38,13 +37,25 @@ dependencies:
   flutter_login: 1.0.14
 
   # used for pantry listing and barcode translation retrieval and submission
-  json_annotation: ^2.0.0
+  json_annotation: ^3.0.0
 
   # format the dateTime
   intl: 0.16.1
 
   # allow calendar selection for dates
   datetime_picker_formfield: ^1.0.0
+
+  # database experiment
+  sqflite: 1.2.1
+  hive: ^1.0.0
+  hive_flutter: ^0.3.0+1
+
+  # new http assistance for json and sqflite experiments
+  dio: ^3.0.8
+  dio_flutter_transformer: ^3.0.2
+  dio_cookie_manager: ^1.0.0
+  dio_http_cache: ^0.2.5
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -56,7 +67,8 @@ dev_dependencies:
     sdk: flutter
 
   build_runner: ^1.0.0
-  json_serializable: ^2.0.0
+  hive_generator: ^ 0.7.0
+  json_serializable: ^3.0.0
 
 
 # For information on the generic Dart part of this file, see the

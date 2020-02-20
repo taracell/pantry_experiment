@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import '../models/inventory.dart';
+import '../models/item.dart';
 import '../models/upc_base_response.dart';
 import '../screens/home_screen.dart';
 import '../screens/scan_screen.dart';
@@ -28,6 +27,7 @@ Future<String> login(loginData, BuildContext context) async {
       "Authorization": GlobalData.auth,
     }).timeout(Duration(seconds: 10));
   } on TimeoutException catch (e) {
+    GlobalData.client.close();
     _alertFailLogin(context, 'Failed to login to server. ' + e.toString());
   } finally {
     GlobalData.client.close();
@@ -44,20 +44,30 @@ Future<String> login(loginData, BuildContext context) async {
   }
 } //login
 
-Future<List<Inventory>> fetchInventory(BuildContext context) async {
+Future<List<Item>> fetchInventory(BuildContext context) async {
+  var response;
   if (GlobalData.offline) {
-    String response = await readLocalInventoryFile(context);
-    return compute(parseItems, response);
+    String responseBody = DefaultAssetBundle.of(context)
+        .loadString('assets/local_inventory.json')
+        .toString();
+    return parseItems(responseBody);
   } else {
-    final response = await http.get(GlobalData.url, headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "Authorization": GlobalData.auth,
-    }); //response
-
+    try {
+      await Future<void>.delayed(Duration(seconds: 1));
+      response = await GlobalData.client.get(GlobalData.url, headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": GlobalData.auth,
+      }).timeout(const Duration(seconds: 3));
+      await Future<void>.delayed(Duration(seconds: 1));
+    } on TimeoutException catch (e) {
+      _alertFail(context, 'Failed to load server pantry. ' + e.toString());
+    } finally {
+      GlobalData.client.close();
+    }
     if (response.statusCode == 200) {
-      writeInventoryFromServer(response.body);
-      return compute(parseItems, response.body);
+      await writeInventoryFromServer(response.body);
+      return parseItems(response.body);
     } else {
       // If that call was not successful, throw an error.
       _alertFail(context,
@@ -67,21 +77,22 @@ Future<List<Inventory>> fetchInventory(BuildContext context) async {
   }
 }
 
-List<Inventory> parseItems(String responseBody) {
+List<Item> parseItems(String responseBody) {
   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-  return parsed.map<Inventory>((json) => Inventory.fromJson(json)).toList();
+  return parsed.map<Item>((json) => Item.fromJson(json)).toList();
 }
 
 Future addToInventory(context) async {
-  Inventory inventory = new Inventory(
+  Item item = new Item(
       name: "${Connections.itemController.text}",
       quantity_with_unit: "${Connections.unitController.text}",
       acquisition: Connections.acquisition.substring(0, 10),
       expiration: Connections.expiration.substring(0, 10));
 
-  var responseBody = json.encode(inventory);
+  var responseBody = json.encode(item);
   if (GlobalData.offline) {
-    writeItem(responseBody);
+    await writeItem(responseBody);
+    //if ()
     _alertSuccess(context, 'Item sucessfully added to local phone inventory');
   } else {
     final response = await http.post(GlobalData.url,
@@ -97,7 +108,7 @@ Future addToInventory(context) async {
       _alertSuccess(context, 'Item sucessfully added to inventory');
       return response;
     } else {
-      writeItem(responseBody);
+      // writeItem(responseBody);
       _alertFail(context, 'Item not added to server');
       throw Exception('Failed to load to server Inventory');
     }

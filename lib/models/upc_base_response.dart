@@ -12,7 +12,7 @@ class BaseResponse {
   final String code;
   final int total;
   final int offset;
-  final List<Item> items;
+  final List<Items> items;
 
   BaseResponse({
     this.code,
@@ -28,7 +28,7 @@ class BaseResponse {
 }
 
 @JsonSerializable()
-class Item {
+class Items {
   final String ean;
   final String title;
   final String description;
@@ -47,7 +47,7 @@ class Item {
   final String asin;
   final String elid;
 
-  Item({
+  Items({
     this.ean,
     this.title,
     this.description,
@@ -67,9 +67,9 @@ class Item {
     this.elid,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
+  factory Items.fromJson(Map<String, dynamic> json) => _$ItemsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ItemToJson(this);
+  Map<String, dynamic> toJson() => _$ItemsToJson(this);
 }
 
 @JsonSerializable()

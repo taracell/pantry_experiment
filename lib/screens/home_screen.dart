@@ -5,17 +5,16 @@ import 'package:intl/intl.dart';
 
 import 'scan_screen.dart';
 import 'package:pantry/data/connect_repository.dart';
-import 'package:pantry/models/inventory.dart';
+import 'package:pantry/models/item.dart';
 
 class GlobalData {
   static String auth;
   static var client = new http.Client();
   static bool offline =
       true; //setting this to true so I can get the local storage working
-  static String url =
-      'http://192.168,0,2:8000/item'; //iOS Testing real device...Replace the IP with your IP from your machine
+  //static String url = 'http://<YOUR IP>:8000/item'; //Testing real device
   //static String url = 'http://localhost:8000/item'; //iOS TESTING
-  //static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
+  static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
   //static String url ='https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
 }
 
@@ -75,7 +74,7 @@ class PantryList extends StatefulWidget {
 }
 
 class PantryListState extends State<PantryList> {
-  Future<Inventory> inventory;
+  Future<Item> inventory;
   var isLoading = false;
 
   @override
@@ -85,7 +84,7 @@ class PantryListState extends State<PantryList> {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : FutureBuilder<List<Inventory>>(
+            : FutureBuilder<List<Item>>(
                 future: fetchInventory(context),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
@@ -99,7 +98,7 @@ class PantryListState extends State<PantryList> {
 }
 
 class InventoryList extends StatelessWidget {
-  final List<Inventory> inventory;
+  final List<Item> inventory;
 
   InventoryList({Key key, this.inventory}) : super(key: key);
 
