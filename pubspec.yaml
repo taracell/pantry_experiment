@@ -23,6 +23,9 @@ dependencies:
   # allows camera and JSON usage
   http: 0.12.0+1
 
+  #oauth2
+  oauth2: ^1.5.0
+
   # provides local paths
   path_provider: ^1.5.1
 
@@ -67,7 +70,7 @@ dev_dependencies:
     sdk: flutter
 
   build_runner: ^1.0.0
-  hive_generator: ^ 0.7.0
+  hive_generator: ^0.7.0
   json_serializable: ^3.0.0
 
 

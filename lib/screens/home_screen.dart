@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import 'scan_screen.dart';
 import 'package:pantry/data/connect_repository.dart';
 import 'package:pantry/models/item.dart';
-
-class GlobalData {
-  static String auth;
-  static var client = new http.Client();
-  static bool offline =
-      true; //setting this to true so I can get the local storage working
-  //static String url = 'http://<YOUR IP>:8000/item'; //Testing real device
-  //static String url = 'http://localhost:8000/item'; //iOS TESTING
-  static String url = 'http://10.0.2.2:8000/item'; //ANDROID TESTING
-  //static String url ='https://17dfcfcc-63d3-456a-a5d8-c5f394434f7c.mock.pstmn.io';
-}
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
